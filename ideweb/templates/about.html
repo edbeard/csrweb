@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}About | ChemDataExtractor{% endblock %}
+{% block title %}About | ImageDataExtractor{% endblock %}
 
 {% block content %}
   <div class="container">
-    <h1>About ChemDataExtractor</h1>
+    <h1>About ImageDataExtractor</h1>
   </div>
   <section class="section section-default">
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <p class="feature-display">ChemDataExtractor is a tool for automatically extracting chemical information from scientific documents.</p>
+          <p class="feature-display">ImageDataExtractor is a tool for automatically extracting quantitative data from microscopy images.</p>
 
-          <p class="feature-display">Give it a journal article, and it will extract chemical names, properties, and spectra from the text so they
-          can be imported into a database or spreadsheet.</p>
+          <p class="feature-display">Give it an image, and it will identify regions of interest and calculate
+            particle size metrics and the Radial Distribution Function (RDF).</p>
 
         </div>
         <div class="col-sm-4 text-center">
@@ -28,19 +28,27 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4 text-center">
-          <img class="img-about" src="{{ url_for('static', filename='img/document2.svg') }}">
+          <img class="img-about" src="{{ url_for('static', filename='img/cde-logo.svg') }}">
 {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
         </div>
         <div class="col-sm-8">
-          <h3>Natural language processing</h3>
+          <h3>Figure mining</h3>
           <p class="feature-display">
-            ChemDataExtractor uses state-of-the-art natural language processing algorithms to interpret the English
-            language text that makes up the majority of scientific documents.
+            ImageDataExtractor harnesses the power of
+            <a href="http://chemdataextractor.org">
+            ChemDataExtractor
+            </a>
+            to automatically detect relevant images from a
+            given document.
           </p>
           <p class="feature-display">
             Machine-learning methods such as conditional random fields are used in combination with custom dictionaries
-            and rule-based parsing grammars to extract valuable information from each sentence.
+            and rule-based parsing grammars to reduce figure captions to a machine-readable form.
           </p>
+          <p class="feature-display">
+            The result is then parsed using terms given by the user and all matches downloaded.
+          </p>
+
 
         </div>
 
@@ -51,21 +59,24 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <h3>Chemical intelligence</h3>
+          <h3>Particle identification</h3>
           <p class="feature-display">
-            By processing each document as a whole, ChemDataExtractor is able to resolve data interdependencies, for
-            example to determine when different names and identifiers refer to the same compound.
+            Individual particles are isloated using our custom contour detection algorithm and converted to real values
+            by scale-bar intepretation
           </p>
           <p class="feature-display">
-            As a result, it produces a full compound record containing identifiers, properties, and spectra for each
-            unique chemical entity in the document.
+            Compound images are first split into their constituent images, and Optical Character Recognition performed
+            on each scalebar to obtain scale information
+          </p>
+          <p class="feature-display">
+            Particles are found using a threshold to find boundaries and fitting ellipses to the resultant outline.
           </p>
 
         </div>
         <div class="col-sm-4 text-center">
 {#          <img class="img-about" src="{{ url_for('static', filename='img/document2.svg') }}">#}
 {#          <a href="{{ url_for('demo') }}" class="btn btn-lg btn-primary">Try it now {{utils.icon('chevron-right')}}</a>#}
-          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">
+          <img class="img-about" src="{{ url_for('static', filename='img/img_logo.svg') }}">
         </div>
       </div>
     </div>
@@ -74,18 +85,13 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4 text-center">
-          <img class="img-about" src="{{ url_for('static', filename='img/table.svg') }}">
+          <img class="img-about" src="{{ url_for('static', filename='img/graph2.svg') }}">
         </div>
         <div class="col-sm-8">
-          <h3>Table processing</h3>
+          <h3>Metric calculation</h3>
           <p class="feature-display">
-            Huge amounts of important data are locked away in document tables.
+            Average particle size and RDF are calculated.
           </p>
-          <p class="feature-display">
-            ChemDataExtractor provides specialized parsers that extract data from tables and integrate it with
-            information from the rest of the document.
-          </p>
-        </div>
 
       </div>
     </div>
@@ -96,7 +102,7 @@
         <div class="col-sm-8">
           <h3>Open source</h3>
           <p class="feature-display">
-            ChemDataExtractor is available as an open source python package that you can download and use for free.
+            ImageDataExtractor is available as an open source python package that you can download and use for free.
           </p>
           <p class="feature-display">
             Check out the <a href="/docs">documentation</a> for help getting started.

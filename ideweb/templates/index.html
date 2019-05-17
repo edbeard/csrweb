@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}ChemDataExtractor{% endblock %}
+{% block title %}ImageDataExtractor{% endblock %}
 
 {% block content %}
   <section class="section section-invert">
     <div class="container">
       <div class="row">
         <div class="col-xs-12 text-center">
-          <h3>Automatically extract chemical information from scientific documents</h3>
+          <h3>A tool to extract and quantify data from microscopy images</h3>
           <a href="{{ url_for('about') }}" class="btn btn-lg btn-invert">Learn more</a>
         </div>
       </div>
@@ -17,16 +17,19 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4 text-center">
-          <img class="img-feature" src="{{ url_for('static', filename='img/document2.svg') }}">
-          <div class="feature-display">Extract chemical information from journal articles, theses and patents.</div>
+          <img class="img-feature" src="{{ url_for('static', filename='img/cde-logo.svg') }}">
+          <div class="feature-display">Extract relevant images using
+            <a href="http://chemdataextractor.org">
+            ChemDataExtractor
+            </a>.</div>
         </div>
         <div class="col-sm-4 text-center">
-          <img class="img-feature" src="{{ url_for('static', filename='img/chem.svg') }}">
-          <div class="feature-display">Resolve chemical names, abbreviations and identifiers.</div>
+          <img class="img-feature" src="{{ url_for('static', filename='img/img_logo.svg') }}">
+          <div class="feature-display">Identify regions corresponding to individual particles.</div>
         </div>
         <div class="col-sm-4 text-center">
           <img class="img-feature" src="{{ url_for('static', filename='img/graph2.svg') }}">
-          <div class="feature-display">Extract experimental properties and spectroscopy.</div>
+          <div class="feature-display">Extract relevant image metrics such as Radial Distribution Functions.</div>
         </div>
       </div>
     </div>

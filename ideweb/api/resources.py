@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb.api.resources
+ideweb.api.resources
 ~~~~~~~~~~~~~~~~~~~~
 
 API resources.

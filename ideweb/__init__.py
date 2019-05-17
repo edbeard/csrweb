@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb
+ideweb
 ~~~~~~
 
 Website for ChemDataExtractor.
@@ -51,7 +51,7 @@ def register_blueprints(app):
 app = Flask(__name__, instance_relative_config=True)
 
 # Load default configuration
-app.config.from_object('cdeweb.default_config')
+app.config.from_object('ideweb.default_config')
 # Load deployment-specific configuration from file in the instance folder
 app.config.from_pyfile('config.py', silent=True)
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb fabric deployment tasks
+ideweb fabric deployment tasks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 """
@@ -16,7 +16,7 @@ from . import rabbitmq
 
 
 # Application name
-env.app_name = 'cdeweb'
+env.app_name = 'ideweb'
 # Application user
 env.app_user = env.app_name
 # App installation directory
@@ -24,7 +24,7 @@ env.app_dir = '/var/www/apps/%(app_name)s' % env
 # Config file to use
 env.config_file = 'deploy/config.py'
 # Git remote to clone/pull from
-env.git_remote = 'git@github_cdeweb:mcs07/cdeweb.git'
+env.git_remote = 'git@github_cdeweb:mcs07/ideweb.git'
 # Database user
 env.database_user = env.app_name
 # Database name

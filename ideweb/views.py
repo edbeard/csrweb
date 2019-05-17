@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb.views
+ideweb.views
 ~~~~~~~~~~~~
 
 Main website views.

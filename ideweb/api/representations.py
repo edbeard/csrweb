@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb.api.representations
+ideweb.api.representations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 API response formats.

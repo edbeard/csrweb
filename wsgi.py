@@ -11,6 +11,6 @@ import sys
 
 
 # Ensure the main project directory is on the path
-sys.path.insert(0, '/var/www/apps/cdeweb')
+sys.path.insert(0, '/var/www/apps/ideweb')
 
-from cdeweb import app as application
+from ideweb import app as application

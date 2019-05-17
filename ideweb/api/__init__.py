@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb.api
+ideweb.api
 ~~~~~~~~~~
 
 REST API for ChemDataExtractor.

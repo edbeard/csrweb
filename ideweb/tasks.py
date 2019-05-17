@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdeweb.tasks
+ideweb.tasks
 ~~~~~~~~~~~~
 
 Celery tasks.

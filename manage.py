@@ -3,7 +3,7 @@
 manage.py
 ~~~~~~~~~
 
-cdeweb management commands.
+ideweb management commands.
 
 :copyright: Copyright 2016 by Matt Swain.
 :license: MIT, see LICENSE file for more details.
@@ -18,8 +18,8 @@ import logging
 from flask_script import Manager
 from flask_migrate import MigrateCommand
 
-from cdeweb import app, db
-from cdeweb.tasks import celery
+from ideweb import app, db
+from ideweb.tasks import celery
 
 
 log = logging.getLogger(__name__)
