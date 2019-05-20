@@ -2,7 +2,7 @@
 
 This section outlines the steps required to install ImageDataExtractor. 
 
-We **strongly** advise the use of a virtual environment when installing ImageDataExtractor (Click [here](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) on how to do this.)
+We **strongly** advise the use of a **virtual environment** when installing ImageDataExtractor (Click [here](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) on how to do this.)
 
 ### Step 1: Install ChemDataExtractor-IDE
 
