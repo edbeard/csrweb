@@ -1,26 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Online Demo | ChemDataExtractor{% endblock %}
+{% block title %}Online Demo | ImageDataExtractor{% endblock %}
 
 {% block content %}
   <div class="container page-container">
     <h1>Online Demo</h1>
-    <p>Upload a file or enter some text to try ChemDataExtractor online. Alternatively, check out one of our <a href="#tab-examples" id="example-link">example files</a>.</p>
+    <p>Upload a document or image to try ImageDataExtractor online. Alternatively, check out one of our <a href="#tab-examples" id="example-link">example files</a>.</p>
     <p>
-      This demo has been configured to extract NMR, IR, and UV-vis spectra, as well as melting points, electrochemical
-      potentials, fluorescence lifetimes and quantum yields, along with compound identifiers and document metadata.
-      To customize this, download the <a href="{{ url_for('download') }}">toolkit</a>.
+      This demo has been configured to extract SEM and TEM images.
+      To customize this, download the <a href="https://github.com/edbeard/chemdataextractor-ide">ChemDataExtractor toolkit</a> and write your own parser.
     </p>
     <div>
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#tab-file" role="tab" data-toggle="tab">Upload a file</a></li>
-        <li role="presentation"><a href="#tab-text" role="tab" data-toggle="tab">Enter text</a></li>
         <li role="presentation"><a href="#tab-examples" role="tab" data-toggle="tab">Example files</a></li>
 {#        <li role="presentation"><a href="#tab-url" role="tab" data-toggle="tab">Enter URL</a></li>#}
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="tab-file">
-          <p>This demo works best with the HTML version of journal articles published by the ACS and the RSC, and the JATS XML format used by PubMed Central. Support for PDF files is extremely limited.</p>
+          <p>This demo works best for high resoltion images. If extracting from a document please use HTML or XML from RSC or Elsevier.</p>
           <form class="form" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <div class="input-group">
@@ -32,16 +30,6 @@
             </div>
             <div class="form-group">
               <button id="submit-file" class="btn btn-lg btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="tab-text">
-          <form class="form" method="POST">
-            <div class="form-group">
-              <textarea id="input-text" name="input-text" class="form-control" placeholder="Type or paste text here..."></textarea>
-            </div>
-            <div class="form-group">
-              <button id="submit-text" class="btn btn-lg btn-primary">Submit</button>
             </div>
           </form>
         </div>

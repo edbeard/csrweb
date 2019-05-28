@@ -26,7 +26,7 @@
 
         <div role="tabpanel" class="tab-pane active"  id="tab-fig-mining">
             <h2>Figure Mining</h2>
-          <p>First images are automatically obtained and separated.</p>
+          <p>First relevant figures are automatically detected from scientific articles and separation into their constituent images.</p>
               <section class="section section-default">
                 <div class="container">
                   <div class="row">
@@ -34,7 +34,7 @@
                       <img class="img-about-logo" src="{{ url_for('static', filename='img/cde-logo.svg') }}">
             {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 align-middle">
                       <h3>Figure Scraping</h3>
                       <p class="feature-display">
                         ImageDataExtractor uses
@@ -135,6 +135,9 @@
                       <p class="feature-display">
                         The contours are filtered by removing all contours with insufficient variation in pixel intensity.
                       </p>
+                      <p class="feature-display">
+                        <small><em>A different image is used here due to the lack of false positives on the main example.</em></small>
+                      </p>
                   </div>
                     <div class="col-sm-6 text-center">
                       <img class="img-about" src="{{ url_for('static', filename='img/false_positive_contours.png') }}">
@@ -201,9 +204,9 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-sm-6">
-                      <h3>Final Output</h3>
+                      <h3>Particle Detection Output</h3>
                       <p class="feature-display">
-                        After a secondary edge correction to remove ellipses intersecting the image border, the output is complete and can be used to calculate the image metrics.
+                        After a secondary edge correction to remove ellipses intersecting the image border, the particle detection is complete and can be used to calculate the image metrics.
                       </p>
                     </div>
 
@@ -242,9 +245,12 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-sm-6">
-                      <h3>Radial Distribution Function</h3>
+                      <h3>Radial Distribution Function (minimum)</h3>
                       <p class="feature-display">
-                        The minimum radial distribution function of detected particles.
+                        The minimum radial distribution function (minRDF) of detected particles.
+                      </p>
+                      <p class="feature-display">
+                        This shows the radial distribution function using all extracted particles.
                       </p>
                       </p>
                     </div>
