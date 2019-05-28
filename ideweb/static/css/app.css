@@ -196,10 +196,15 @@ pre > code {
   height: 100px;
 }
 
-.img-about {
+.img-about-logo {
   padding-top: 70px;
   width: 130px;
 }
+
+.img-about {
+  padding-top: 20px;
+  width: 450px;
+  }
 
 header h3 {
   text-align: center;

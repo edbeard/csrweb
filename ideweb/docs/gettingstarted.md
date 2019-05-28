@@ -1,33 +1,31 @@
 # Getting Started
 
-This page gives a introduction on how to get started with ChemDataExtractor. This assumes you already have
-ChemDataExtractor [installed](install).
+This page gives a introduction on how to get started with ImageDataExtractor. This assumes you already have
+ImageDataExtractor and ChemDataExtractor-IDE [installed](install).
 
-The simplest way to load a Document into ChemDataExtractor is to pass it some text:
+## Extract Image
+It's simplest to run ImageDataExtractor on an image file.
 
-    >>> from chemdataextractor import Document
+Open a python terminal and import the library with: 
 
-    >>> doc = Document('UV-vis spectrum of 5,10,15,20-Tetra(4-carboxyphenyl)porphyrin in Tetrahydrofuran (THF).')
+    >>> import imagedataextractor as ide
+    
+Then run:
 
-Once loaded, it is possible to extract various types of information from this document object.
+    >>> ide.extract_image('<path/to/image/file>')
+    
+to perform the extraction. 
 
-For example, each individual chemical entity mention (CEM):
+This runs ImageDataExtractor on the image and outputs all extracted results to a single directory.
 
-    >>> doc.cems
-    [Span('5,10,15,20-Tetra(4-carboxyphenyl)porphyrin', 19, 61), Span('THF', 82, 85), Span('Tetrahydrofuran', 65, 80)]
+By default, the output from each image is stored in current working directory in the format `<doc#>_<doi>_<figid>_<splitfig#>` 
 
-Or abbreviations:
+## Extract Document
 
-    >>> doc.abbreviation_definitions
-    [([u'THF'], [u'Tetrahydrofuran'], u'CM')]
+To automatically extract microscopy images from a HTML or XML article, use the `extract_document` method instead:
+ 
+    >>> ide.extract_document('<path/to/document/file>')
+    
+And that's it!
 
-
-All chemical mentions, abbreviations, properties and spectra are combined to produce a "record" for each unique
-chemical entitiy:
-
-    >>> doc.records
-    [<Compound>, <Compound>]
-    >>> doc.records[0].serialize()
-    {'names': ['5,10,15,20-Tetra(4-carboxyphenyl)porphyrin']}
-    >>> doc.records[1].serialize()
-    {'names': ['Tetrahydrofuran', 'THF']}
+*Please note that image download may fail if the user has insufficient permissions from the article's publisher (as `extract_document` downloads directly from the distributor).*

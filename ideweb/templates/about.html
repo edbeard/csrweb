@@ -3,127 +3,266 @@
 {% block title %}About | ImageDataExtractor{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h1>About ImageDataExtractor</h1>
+  <div class="container page-container">
+    <h1>About</h1>
+    {{ utils.flashed_messages(messages) }}
+    <div>
+      <div class="row">
+        <div class="col-sm-8">
+          <p class="feature-display">ImageDataExtractor is an open-source python package for automatically extracting quantitative data from microscopy images.</p>
+
+          <p class="feature-display">Check out the <a href="/docs">documentation</a> to get started, or look below to see how it works.</p>
+
+        </div>
+      </div>
+
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab-fig-mining" role="tab" data-toggle="tab">Figure Mining</a></li>
+        <li role="presentation"><a href="#tab-particle-detection" role="tab" data-toggle="tab">Particle Detection</a></li>
+        <li role="presentation"><a href="#tab-calculation-metrics" role="tab" data-toggle="tab">Calculate Metrics</a></li>
+      </ul>
+      <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active"  id="tab-fig-mining">
+            <h2>Figure Mining</h2>
+          <p>First images are automatically obtained and separated.</p>
+              <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-4 text-center">
+                      <img class="img-about-logo" src="{{ url_for('static', filename='img/cde-logo.svg') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-8">
+                      <h3>Figure Scraping</h3>
+                      <p class="feature-display">
+                        ImageDataExtractor uses
+                        <a href="https://github.com/edbeard/chemdataextractor-ide">
+                        ChemDataExtractor
+                        </a>
+                        to automatically detect relevant images from a
+                        given HTML or XML document.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Figure Splitting</h3>
+                      <p class="feature-display">
+                        Multi-panel images are separated using our two-step algorithm, by splitting on whitespace and integer fractions of the image.
+                      </p>
+                    </div>
+
+                      <div class="col-sm-6 text-center">
+                        <img class="img-about" src="{{ url_for('static', filename='img/image_splitting.png') }}">
+                      </div>
+
+                  </div>
+                </div>
+              </section>
+
+        </div>
+        <div role="tabpanel" class="tab-pane{% if registered %} active{% endif %}" id="tab-particle-detection">
+          <h2>Particle Detection</h2>
+          <p>
+            Particle regions are identified and the scalebar's pixel/value ratio extracted.
+          </p>
+          <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/scalebar_resolution.png') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-6">
+                      <h3>Scalebar Detection</h3>
+                      <p class="feature-display">
+                        Scalebar regions are located and the value and unit of the scale read using optical character resolution.
+                      </p>
+                      <p class="feature-display">
+                        The number of pixels in the scalebar is used to calculate a scale mapping for the image.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Thresholding</h3>
+                      <p class="feature-display">
+                        The image is converted to greyscale and binarized using an adaptive thresholding algorithm
+                      </p>
+                    </div>
+
+                      <div class="col-sm-6 text-center">
+                        <img class="img-about" src="{{ url_for('static', filename='img/particle_thresholding.png') }}">
+                      </div>
+
+                  </div>
+                </div>
+              </section>
+            <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/closed_contours.png') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-6">
+                      <h3>Contour Detection</h3>
+                      <p class="feature-display">
+                        Edge detection algorithms are used to identify all closed contours.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Remove False Positives</h3>
+                      <p class="feature-display">
+                        The contours are filtered by removing all contours with insufficient variation in pixel intensity.
+                      </p>
+                  </div>
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/false_positive_contours.png') }}">
+                    </div>
+                </div>
+              </section>
+            <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/cluster_breakup.png') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-6">
+                      <h3>Cluster Break-Up</h3>
+                      <p class="feature-display">
+                        Contour bottlenecks are used to split nearby particles that were blurred together during the contour detection.
+                      </p>
+
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Contour Filtering</h3>
+                      <p class="feature-display">
+                        Contours intersecting the image borders or scale information region (blue rectangle) are eliminated for being artifically distorted.
+
+                      </p>
+                    </div>
+
+                      <div class="col-sm-6 text-center">
+                        <img class="img-about" src="{{ url_for('static', filename='img/border_and_scalebar_particle_removal.png') }}">
+                      </div>
+
+                  </div>
+                </div>
+              </section>
+            <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/ellipse_fitting.png') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-6">
+                      <h3>Ellipse Fitting</h3>
+                      <p class="feature-display">
+                        Remaining contours are fitted to an ellipse.
+                      </p>
+                      <p class="feature-display">
+                        If it is determined that the ellipse is a better fit than the contour, it is used instead from this point forwards.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Final Output</h3>
+                      <p class="feature-display">
+                        After a secondary edge correction to remove ellipses intersecting the image border, the output is complete and can be used to calculate the image metrics.
+                      </p>
+                    </div>
+
+                      <div class="col-sm-6 text-center">
+                        <img class="img-about" src="{{ url_for('static', filename='img/output_particle_image.png') }}">
+                      </div>
+
+                  </div>
+                </div>
+              </section>
+
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="tab-calculation-metrics">
+           <h2>Calculate Metrics</h2>
+          <p>Now that the extraction is done, lets look at the results!</p>
+          <p>ImageDataExtractor automatically generates useful graphics for easy interpretation.</p>
+              <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <img class="img-about" src="{{ url_for('static', filename='img/histogram_example.png') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-6">
+                      <h3>Histogram of Particle Sizes</h3>
+                      <p class="feature-display">
+                      A histogram of deteted particle sizes. The results in blue are contributions deemed to be outliers.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="section section-alternate">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h3>Radial Distribution Function</h3>
+                      <p class="feature-display">
+                        The minimum radial distribution function of detected particles.
+                      </p>
+                      </p>
+                    </div>
+
+                      <div class="col-sm-6 text-center">
+                        <img class="img-about" src="{{ url_for('static', filename='img/rdf_example.png') }}">
+                      </div>
+
+                  </div>
+                </div>
+              </section>
+
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
-  <section class="section section-default">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8">
-          <p class="feature-display">ImageDataExtractor is a tool for automatically extracting quantitative data from microscopy images.</p>
-
-          <p class="feature-display">Give it an image, and it will identify regions of interest and calculate
-            particle size metrics and the Radial Distribution Function (RDF).</p>
-
-        </div>
-        <div class="col-sm-4 text-center">
-{#          <img class="img-about" src="{{ url_for('static', filename='img/document2.svg') }}">#}
-{#          <a href="{{ url_for('demo') }}" class="btn btn-lg btn-primary">Try it now {{utils.icon('chevron-right')}}</a>#}
-{#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section section-alternate">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4 text-center">
-          <img class="img-about" src="{{ url_for('static', filename='img/cde-logo.svg') }}">
-{#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
-        </div>
-        <div class="col-sm-8">
-          <h3>Figure mining</h3>
-          <p class="feature-display">
-            ImageDataExtractor harnesses the power of
-            <a href="http://chemdataextractor.org">
-            ChemDataExtractor
-            </a>
-            to automatically detect relevant images from a
-            given document.
-          </p>
-          <p class="feature-display">
-            Machine-learning methods such as conditional random fields are used in combination with custom dictionaries
-            and rule-based parsing grammars to reduce figure captions to a machine-readable form.
-          </p>
-          <p class="feature-display">
-            The result is then parsed using terms given by the user and all matches downloaded.
-          </p>
-
-
-        </div>
-
-      </div>
-    </div>
-  </section>
-  <section class="section section-default">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8">
-          <h3>Particle identification</h3>
-          <p class="feature-display">
-            Individual particles are isloated using our custom contour detection algorithm and converted to real values
-            by scale-bar intepretation
-          </p>
-          <p class="feature-display">
-            Compound images are first split into their constituent images, and Optical Character Recognition performed
-            on each scalebar to obtain scale information
-          </p>
-          <p class="feature-display">
-            Particles are found using a threshold to find boundaries and fitting ellipses to the resultant outline.
-          </p>
-
-        </div>
-        <div class="col-sm-4 text-center">
-{#          <img class="img-about" src="{{ url_for('static', filename='img/document2.svg') }}">#}
-{#          <a href="{{ url_for('demo') }}" class="btn btn-lg btn-primary">Try it now {{utils.icon('chevron-right')}}</a>#}
-          <img class="img-about" src="{{ url_for('static', filename='img/img_logo.svg') }}">
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section section-alternate">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4 text-center">
-          <img class="img-about" src="{{ url_for('static', filename='img/graph2.svg') }}">
-        </div>
-        <div class="col-sm-8">
-          <h3>Metric calculation</h3>
-          <p class="feature-display">
-            Average particle size and RDF are calculated.
-          </p>
-
-      </div>
-    </div>
-  </section>
-  <section class="section section-default">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8">
-          <h3>Open source</h3>
-          <p class="feature-display">
-            ImageDataExtractor is available as an open source python package that you can download and use for free.
-          </p>
-          <p class="feature-display">
-            Check out the <a href="/docs">documentation</a> for help getting started.
-          </p>
-        </div>
-        <div class="col-sm-4 text-center">
-          <img class="img-about" src="{{ url_for('static', filename='img/terminal.svg') }}">
-{#          <a href="{{ url_for('demo') }}" class="btn btn-lg btn-primary">Try it now {{utils.icon('chevron-right')}}</a>#}
-{#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section section-alternate">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 text-center">
-          <h2>Try our online demo to see it in action</h2>
-          <a href="{{ url_for('demo') }}" class="btn btn-lg btn-primary">Try it now {{utils.icon('chevron-right')}}</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 {% endblock %}

@@ -46,6 +46,10 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/about_new')
+def about_new():
+    return render_template('about.html')
+
 
 @app.route('/download', methods=['GET', 'POST'])
 def download():
@@ -79,23 +83,14 @@ def docs_index():
 def docs(docfile):
 
     toc = [
-        'intro', 'install', 'gettingstarted', 'reading', 'records', 'tokenization', 'pos', 'cem', 'lexicon',
-        'abbreviations', 'cli', 'scrape', 'contributing'
+        'intro', 'install', 'gettingstarted', 'advanced', 'contributing'
     ]
 
     titles = {
         'intro': 'Introduction',
         'install': 'Installation',
         'gettingstarted': 'Getting Started',
-        'reading': 'Reading Documents',
-        'records': 'Chemical Records',
-        'tokenization': 'Tokenization',
-        'pos': 'Part-of-speech Tagging',
-        'cem': 'Chemical Named Entities',
-        'lexicon': 'Lexicon',
-        'abbreviations': 'Abbreviation Detection',
-        'cli': 'Command Line Interface',
-        'scrape': 'Scraping Structured Data',
+        'advanced': 'Advanced Usage',
         'contributing': 'Contributing'
     }
 
