@@ -97,17 +97,17 @@ def setup_opsin():
         )
 
 
-@task
-def setup_rdkit():
-    """Initial RDKit setup."""
-    require.deb.packages([
-        'build-essential', 'python-numpy', 'cmake', 'python-dev', 'sqlite3', 'libsqlite3-dev', 'libboost-dev',
-        'libboost-system-dev', 'libboost-thread-dev', 'libboost-serialization-dev', 'libboost-python-dev',
-        'libboost-regex-dev', 'wget'
-    ])
-    with cd('/opt'):
-        require.file(url='https://github.com/rdkit/rdkit/archive/Release_2016_03_1.tar.gz')
-        sudo('tar -xvf Release_2016_03_1.tar.gz')
+# @task
+# def setup_rdkit():
+#     """Initial RDKit setup."""
+#     require.deb.packages([
+#         'build-essential', 'python-numpy', 'cmake', 'python-dev', 'sqlite3', 'libsqlite3-dev', 'libboost-dev',
+#         'libboost-system-dev', 'libboost-thread-dev', 'libboost-serialization-dev', 'libboost-python-dev',
+#         'libboost-regex-dev', 'wget'
+#     ])
+#     with cd('/opt'):
+#         require.file(url='https://github.com/rdkit/rdkit/archive/Release_2016_03_1.tar.gz')
+#         sudo('tar -xvf Release_2016_03_1.tar.gz')
 
     # Too lazy, just ran manually on the production machine...
     # cd /opt

@@ -22,9 +22,9 @@ import uuid
 
 from flask import render_template, request, url_for, redirect, abort, flash, Response
 import hoedown
-from rdkit import Chem
-from rdkit.Chem import AllChem
-from rdkit.Chem import Draw
+# from rdkit import Chem
+# from rdkit.Chem import AllChem
+# from rdkit.Chem import Draw
 import requests
 import six
 
@@ -218,28 +218,28 @@ def results(result_id):
     )
 
 
-@app.route('/depict/<path:smiles>')
-def depict(smiles):
-    """Depict structure"""
-    mol = Chem.MolFromSmiles(smiles)
+#@app.route('/depict/<path:smiles>')
+# def depict(smiles):
+#     """Depict structure"""
+#     mol = Chem.MolFromSmiles(smiles)
+#
+#     mc = copy.deepcopy(mol)
+#     try:
+#         img = Draw.MolToImage(mc, size=(180, 180), kekulize=True, highlightAtoms=[])
+#     except ValueError:  # <- can happen on a kekulization failure
+#         mc = copy.deepcopy(mol)
+#         img = Draw.MolToImage(mc, size=(180, 180), kekulize=False, highlightAtoms=[])
+#     img_io = six.BytesIO()
+#     img.save(img_io, 'PNG')
+#     img_io.seek(0)
+#     return Response(response=img_io.getvalue(), status=200, mimetype='image/png')
 
-    mc = copy.deepcopy(mol)
-    try:
-        img = Draw.MolToImage(mc, size=(180, 180), kekulize=True, highlightAtoms=[])
-    except ValueError:  # <- can happen on a kekulization failure
-        mc = copy.deepcopy(mol)
-        img = Draw.MolToImage(mc, size=(180, 180), kekulize=False, highlightAtoms=[])
-    img_io = six.BytesIO()
-    img.save(img_io, 'PNG')
-    img_io.seek(0)
-    return Response(response=img_io.getvalue(), status=200, mimetype='image/png')
 
-
-@app.route('/mol/<path:smiles>')
-def mol(smiles):
-    """Return MOL for SMILES."""
-    mol = Chem.MolFromSmiles(smiles)
-    AllChem.Compute2DCoords(mol)
-    mb = Chem.MolToMolBlock(mol)
-    return Response(response=mb, status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=structure.mol'})
+# @app.route('/mol/<path:smiles>')
+# def mol(smiles):
+#     """Return MOL for SMILES."""
+#     mol = Chem.MolFromSmiles(smiles)
+#     AllChem.Compute2DCoords(mol)
+#     mb = Chem.MolToMolBlock(mol)
+#     return Response(response=mb, status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=structure.mol'})
 

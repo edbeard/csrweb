@@ -21,8 +21,8 @@ import logging
 import dicttoxml
 import pandas as pd
 from flask import make_response, abort, Response
-from rdkit import Chem
-from rdkit.Chem import AllChem
+#from rdkit import Chem
+#from rdkit.Chem import AllChem
 
 from . import api
 
@@ -111,45 +111,45 @@ def output_xlsx(data, code, headers):
     return resp
 
 
-@api.representation('chemical/x-mdl-sdfile')
-def output_sdf(data, code, headers):
-    if 'result' not in data:
-        abort(400, 'Result not ready')
-
-    # Create RDKit Mols
-    mols = []
-    for result in data['result']:
-        for record in result.get('records', []):
-            if 'smiles' in record:
-                mol = Chem.MolFromSmiles(record['smiles'])
-                if mol:
-                    if 'names' in record:
-                        mol.SetProp(b'_Name', record['names'][0].encode('utf-8'))
-                    if 'labels' in record:
-                        mol.SetProp(b'labels', ', '.join([('Compound %s' % l) for l in record['labels']]).encode('utf-8'))
-                    if 'nmr_spectra' in record:
-                        mol.SetIntProp(b'nmr_spectra', len(record.get('nmr_spectra', [])))
-                    if 'ir_spectra' in record:
-                        mol.SetIntProp(b'ir_spectra', len(record.get('ir_spectra', [])))
-                    if 'uvvis_spectra' in record:
-                        mol.SetIntProp(b'uvvis_spectra', len(record.get('uvvis_spectra', [])))
-                    if 'melting_points' in record:
-                        mol.SetIntProp(b'melting_points', len(record.get('melting_points', [])))
-                    if 'quantum_yields' in record:
-                        mol.SetIntProp(b'quantum_yields', len(record.get('quantum_yields', [])))
-                    if 'fluorescence_lifetimes' in record:
-                        mol.SetIntProp(b'fluorescence_lifetimes', len(record.get('fluorescence_lifetimes', [])))
-                    if 'electrochemical_potentials' in record:
-                        mol.SetIntProp(b'electrochemical_potentials', len(record.get('electrochemical_potentials', [])))
-
-                    AllChem.Compute2DCoords(mol)
-                    mols.append(mol)
-
-    # Write to file object
-    bio = BytesIO()
-    writer = Chem.SDWriter(bio)
-    for mol in mols:
-        writer.write(mol)
-    writer.close()
-    bio.seek(0)
-    return Response(response=bio.read(), status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=%s.sdf' % data['job_id']})
+# @api.representation('chemical/x-mdl-sdfile')
+# def output_sdf(data, code, headers):
+#     if 'result' not in data:
+#         abort(400, 'Result not ready')
+#
+#     # Create RDKit Mols
+#     mols = []
+#     for result in data['result']:
+#         for record in result.get('records', []):
+#             if 'smiles' in record:
+#                 mol = Chem.MolFromSmiles(record['smiles'])
+#                 if mol:
+#                     if 'names' in record:
+#                         mol.SetProp(b'_Name', record['names'][0].encode('utf-8'))
+#                     if 'labels' in record:
+#                         mol.SetProp(b'labels', ', '.join([('Compound %s' % l) for l in record['labels']]).encode('utf-8'))
+#                     if 'nmr_spectra' in record:
+#                         mol.SetIntProp(b'nmr_spectra', len(record.get('nmr_spectra', [])))
+#                     if 'ir_spectra' in record:
+#                         mol.SetIntProp(b'ir_spectra', len(record.get('ir_spectra', [])))
+#                     if 'uvvis_spectra' in record:
+#                         mol.SetIntProp(b'uvvis_spectra', len(record.get('uvvis_spectra', [])))
+#                     if 'melting_points' in record:
+#                         mol.SetIntProp(b'melting_points', len(record.get('melting_points', [])))
+#                     if 'quantum_yields' in record:
+#                         mol.SetIntProp(b'quantum_yields', len(record.get('quantum_yields', [])))
+#                     if 'fluorescence_lifetimes' in record:
+#                         mol.SetIntProp(b'fluorescence_lifetimes', len(record.get('fluorescence_lifetimes', [])))
+#                     if 'electrochemical_potentials' in record:
+#                         mol.SetIntProp(b'electrochemical_potentials', len(record.get('electrochemical_potentials', [])))
+#
+#                     AllChem.Compute2DCoords(mol)
+#                     mols.append(mol)
+#
+#     # Write to file object
+#     bio = BytesIO()
+#     writer = Chem.SDWriter(bio)
+#     for mol in mols:
+#         writer.write(mol)
+#     writer.close()
+#     bio.seek(0)
+#     return Response(response=bio.read(), status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=%s.sdf' % data['job_id']})
