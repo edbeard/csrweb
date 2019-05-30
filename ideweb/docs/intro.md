@@ -8,7 +8,7 @@ This guide provides a quick tour through ImageDataExtractor concepts and functio
 ## Features
 
 - Automatic detection and download of microscopy images from scientific articles
-- HTML and XML document format support
+- HTML and XML document format support from RSC and Elsevier
 - High-throughput capabilities
 - Direct extraction from image files
 - PNG, GIF, JPEG, TIFF image format support

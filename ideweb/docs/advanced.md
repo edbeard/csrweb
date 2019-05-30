@@ -11,6 +11,8 @@ ImageDataExtractor can be used for high-throughput data extraction using two met
     
 These run the `extract_image` and `extract_document` methods sequentially on every file in the target directory.
 
+ImageDataExtractor also supports `.zip`, `.tar` and `.tar.gz` inputs.
+
 ## Output locations
 
 In addition to the output graphs, images are in the following locations for debugging purposes:
