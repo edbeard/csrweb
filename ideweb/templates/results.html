@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Online Demo Results | ChemDataExtractor{% endblock %}
+{% block title %}Online Demo Results | ImageDataExtractor{% endblock %}
 
 {% macro display_compound(record, index) %}
   <div id="compound-{{ index }}" class="panel panel-default panel-compound">
@@ -432,99 +432,14 @@
             <div class="download-container">
               <div class="btn-group">
                 <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='sdf') }}" class="btn btn-default">SDF</a>
-                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='xlsx') }}" class="btn btn-default">Excel</a>
-                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='xml') }}" class="btn btn-default">XML</a>
-                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id) }}" class="btn btn-default">JSON</a>
-              </div>
-{#              <div class="btn-group">#}
-{#                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='xlsx') }}" class="btn btn-default">Download Excel File</a>#}
-{#                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                  <span class="caret"></span>#}
-{#                  <span class="sr-only">Toggle Dropdown</span>#}
-{#                </button>#}
-{#                <ul class="dropdown-menu">#}
-{#                  <li><a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='xlsx') }}">Download Excel File</a></li>#}
-{#                  <li><a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id) }}">Download JSON File</a></li>#}
-{#                  <li><a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='xml') }}">Download XML File</a></li>#}
-{#                </ul>#}
-{#              </div>#}
-            </div>
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#tab-records" role="tab" data-toggle="tab">Chemical Records</a></li>
-              <li role="presentation"><a href="#tab-meta" role="tab" data-toggle="tab">Metadata</a></li>
-              <li role="presentation"><a href="#tab-abbrev" role="tab" data-toggle="tab">Abbreviations</a></li>
-              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">JSON</a></li>
-            </ul>
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="tab-records">
-                <div class="text-muted small text-right">Name-to-structure powered by <a href="http://opsin.ch.cam.ac.uk">OPSIN</a> and <a href="http://cactus.nci.nih.gov/chemical/structure">NCI CIR</a></div>
-                {% for result in job.result %}
-                  {% for record in result['records'] %}
-                    {% if 'nmr_spectra' in record or 'ir_spectra' in record or 'uvvis_spectra' in record or 'melting_points' in record or 'electrochemical_potentials' in record or 'quantum_yields' in record or 'fluorescence_lifetimes' in record %}
-                      {{ display_compound(record, loop.index0) }}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-                {% if not has_important %}
-                  <p>No records found!</p>
-                {% endif %}
-                {% if has_other %}
-                  <div class="text-center show-other">
-                    <a class="btn btn-link btn-lg" role="button" data-toggle="collapse" href="#other-records" aria-expanded="false" aria-controls="other-records">
-                      Show additional compounds
-                    </a>
-                  </div>
-
-                  <div class="collapse" id="other-records">
-                    <p>
-                      These chemical names were found in the document but were not found to have any associated spectra or properties.
-                      There is a higher chance of false positives amongst these names.
-                    </p>
-                    {% for result in job.result %}
-                      {% for record in result['records'] %}
-                        {% if not ('nmr_spectra' in record or 'ir_spectra' in record or 'uvvis_spectra' in record or 'melting_points' in record or 'electrochemical_potentials' in record or 'quantum_yields' in record or 'fluorescence_lifetimes' in record) and ('labels' in record or 'smiles' in record) %}
-                          {{ display_compound(record, loop.index0) }}
-                        {% endif %}
-                      {% endfor %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-meta">
-                {% for result in job.result %}
-                  <div class="row">
-                    <div class="col-md-12">
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-abbrev">
-                {% for result in job.result %}
-                  <div class="row">
-                    <div class="col-md-12">
-                      <table class="table table-bordered">
-                        {% for abbrev, full, entity in result['abbreviations'] %}
-                          <tr>
-                            <th class="col-xs-3">{{ abbrev | join(' ') }}</th>
-                            <td class="col-xs-9">{{ full | join(' ') }}</td>
-                          </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-json">
-                <pre><code>{{ job.result | tojson(indent=2, ensure_ascii=False) }}</code></pre>
               </div>
             </div>
-          </div>
 
         {% elif task.failed() %}
           <p>Job failed</p>
           <p>Job ID: {{ job.job_id }}</p>
         {% else %}
-          <p>ChemDataExtractor is running...</p>
+          <p>ImageDataExtractor is running...</p>
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
           </div>
