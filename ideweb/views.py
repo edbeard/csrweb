@@ -20,7 +20,7 @@ import os
 import re
 import uuid
 
-from flask import render_template, request, url_for, redirect, abort, flash, Response
+from flask import render_template, request, url_for, redirect, abort, flash, make_response
 import hoedown
 # from rdkit import Chem
 # from rdkit.Chem import AllChem
@@ -200,13 +200,12 @@ def results(result_id):
 
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
+    output = os.path.join(app.config['OUTPUT_FOLDER'], job.file)
     has_result = False
-    has_important = False
-    has_other = False
+
     if job.result:
         has_result=True
-        has_important = True
-        has_other = True
+
 
         # for result in job.result:
         #     for record in result.get('records', []):
@@ -223,9 +222,17 @@ def results(result_id):
         task=task,
         job=job,
         has_result=has_result,
-        has_important=has_important,
-        has_other=has_other
+        output=output
     )
+
+
+@app.route('/<result_id>/<type>')
+def load_img(result_id, type):
+    job = IdeJob.query.filter_by(job_id=result_id).first_or_404()
+    full_path = job.result['path'][type]
+    resp = make_response(open(full_path, 'r').read())
+    return resp
+
 
 
 #@app.route('/depict/<path:smiles>')

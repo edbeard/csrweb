@@ -30,9 +30,8 @@ class IdeJob(db.Model):
     job_id = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     file = db.Column(db.String, nullable=True)
-    #out_file = db.Column(db.String, nullable=True)
     url = db.Column(db.String, nullable=True)
-    result = db.Column(db.String, nullable=True)
+    result = db.Column(JSONB, nullable=True)
 
     @property
     def status(self):

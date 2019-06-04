@@ -431,9 +431,62 @@
           <div>
             <div class="download-container">
               <div class="btn-group">
-                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='sdf') }}" class="btn btn-default">SDF</a>
+                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='sdf') }}" class="btn btn-default">Download Results</a>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <p class="feature-display">Extraction successful!</p>
+
+                <p class="feature-display">Browse the output below or download the zip here (ADD DOWNLOAD LINK)</p>
+
+              </div>
+            </div>
+                  <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#tab-minrdf" role="tab" data-toggle="tab">Minimum RDF</a></li>
+              <li role="presentation"><a href="#tab-records" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
+              <li role="presentation"><a href="#tab-abbrev" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
+              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Particle Detection</a></li>
+              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Metadata</a></li>
+            </ul>
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="tab-minrdf">
+
+                <p class="feature-display">The Minimum Radial Distribution Function (minRDF) of extracted particles: </p>
+                  <p class="feature-display">{{job.result['path']['rdf']}}</p>
+                    <img src="{{ load_img(job.job_id, job.result['path']['rdf']) }}">
+
+
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab-meta">
+                {% for result in job.result %}
+                  <div class="row">
+                    <div class="col-md-12">
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab-abbrev">
+                {% for result in job.result %}
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-bordered">
+                        {% for abbrev, full, entity in result['abbreviations'] %}
+                          <tr>
+                            <th class="col-xs-3">{{ abbrev | join(' ') }}</th>
+                            <td class="col-xs-9">{{ full | join(' ') }}</td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab-json">
+                <pre><code>{{ job.result | tojson(indent=2, ensure_ascii=False) }}</code></pre>
+              </div>
+            </div>
+          </div>
 
         {% elif task.failed() %}
           <p>Job failed</p>

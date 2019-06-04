@@ -39,10 +39,25 @@ celery = make_celery(app)
 def get_ide_output(inf, outf):
     try:
         extract_images(inf, outf)
-        return 'Image Extracted'
+
     except Exception as e:
         print(e)
-        return 'Extraction Failed'
+        return 'Extraction failed'
+
+    filename = inf.split('/')[-1].split('.')[0]
+    filetype = inf.split('.')[-1]
+    output = {'path':
+                  {'hist': os.path.join(outf, filename, 'hist_' + filename + '.' + filetype),
+                   'rdf': os.path.join(outf, filename,'rdf_' + filename + '.' + filetype),
+                   'scalebar': os.path.join(outf, filename,'scalebar_' + filename + '.' + filetype),
+                   'det': os.path.join(outf, filename, 'det_' + filename + '.' + filetype),
+                   'meta': os.path.join(outf, filename, filename + '.txt'),
+                   }
+              }
+    with open(output['path']['meta'], 'r') as f:
+        output['meta'] = f.read()
+
+    return output
 
 
 def get_result(f, fname):
@@ -113,7 +128,6 @@ def run_ide(job_id):
     ide_job = IdeJob.query.get(job_id)
     input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], ide_job.file)
     result = get_ide_output(input_filepath, app.config['OUTPUT_FOLDER'])
-
     ide_job.result = result
     # print('The ouptut result is :' % ide_job.result)
     db.session.commit()

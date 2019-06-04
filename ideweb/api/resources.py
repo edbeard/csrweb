@@ -70,7 +70,7 @@ class IdeJobSubmitResource(Resource):
         ide_job = IdeJob(file=filename, job_id=job_id)
         db.session.add(ide_job)
         db.session.commit()
-        run_cde.apply_async([ide_job.id], task_id=job_id)
+        run_ide.apply_async([ide_job.id], task_id=job_id)
         return ide_job, 201
 
 
