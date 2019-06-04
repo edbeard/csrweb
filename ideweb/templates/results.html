@@ -444,43 +444,30 @@
             </div>
                   <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" class="active"><a href="#tab-minrdf" role="tab" data-toggle="tab">Minimum RDF</a></li>
-              <li role="presentation"><a href="#tab-records" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
-              <li role="presentation"><a href="#tab-abbrev" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
-              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Particle Detection</a></li>
+              <li role="presentation"><a href="#tab-hist" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
+              <li role="presentation"><a href="#tab-scalebar" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
+              <li role="presentation"><a href="#tab-det" role="tab" data-toggle="tab">Particle Detection</a></li>
               <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Metadata</a></li>
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="tab-minrdf">
 
                 <p class="feature-display">The Minimum Radial Distribution Function (minRDF) of extracted particles: </p>
-                  <p class="feature-display">{{job.result['path']['rdf']}}</p>
-                    <img src="{{ load_img(job.job_id, job.result['path']['rdf']) }}">
-
+                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}">
 
               </div>
-              <div role="tabpanel" class="tab-pane" id="tab-meta">
-                {% for result in job.result %}
-                  <div class="row">
-                    <div class="col-md-12">
-                    </div>
-                  </div>
-                {% endfor %}
+              <div role="tabpanel" class="tab-pane" id="tab-hist">
+                <p class="feature-display">Histogram of particle sizes: </p>
+                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='hist') }}">
+
               </div>
-              <div role="tabpanel" class="tab-pane" id="tab-abbrev">
-                {% for result in job.result %}
-                  <div class="row">
-                    <div class="col-md-12">
-                      <table class="table table-bordered">
-                        {% for abbrev, full, entity in result['abbreviations'] %}
-                          <tr>
-                            <th class="col-xs-3">{{ abbrev | join(' ') }}</th>
-                            <td class="col-xs-9">{{ full | join(' ') }}</td>
-                          </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
-                  </div>
-                {% endfor %}
+              <div role="tabpanel" class="tab-pane" id="tab-scalebar">
+                <p class="feature-display">Extracted scalebar: </p>
+                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}">
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab-det">
+                <p class="feature-display">Extracted scalebar: </p>
+                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='det') }}">
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-json">
                 <pre><code>{{ job.result | tojson(indent=2, ensure_ascii=False) }}</code></pre>
