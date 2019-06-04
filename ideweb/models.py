@@ -24,6 +24,22 @@ from . import db
 log = logging.getLogger(__name__)
 
 
+class IdeJob(db.Model):
+    """An ImageDataExtractor job."""
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    file = db.Column(db.String, nullable=True)
+    #out_file = db.Column(db.String, nullable=True)
+    url = db.Column(db.String, nullable=True)
+    result = db.Column(db.String, nullable=True)
+
+    @property
+    def status(self):
+        from .tasks import celery
+        return celery.AsyncResult(self.job_id).status
+
+
 class CdeJob(db.Model):
     """A ChemDataExtractor job."""
     id = db.Column(db.Integer, primary_key=True)

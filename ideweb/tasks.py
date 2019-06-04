@@ -20,17 +20,28 @@ import tempfile
 import zipfile
 
 import cirpy
+
+from imagedataextractor import extract_images, extract_document, extract_documents
+
 from chemdataextractor import Document
 from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
 from chemdataextractor.text.normalize import chem_normalize
 from natsort import natsort
 
 from . import app, db, make_celery
-from .models import CdeJob, ChemDict
+from .models import IdeJob, CdeJob, ChemDict
 
 log = logging.getLogger(__name__)
 
 celery = make_celery(app)
+
+
+def get_ide_output(inf, outf):
+    try:
+        extract_images(inf, outf)
+        return 'Image Extracted'
+    except Exception():
+        return 'Extraction Failed'
 
 
 def get_result(f, fname):
@@ -93,6 +104,19 @@ def add_structures(result):
                     if smiles:
                         record['smiles'] = smiles
     return result
+
+
+@celery.task()
+def run_ide(job_id):
+    print('Entered the run_ide task')
+    ide_job = IdeJob.query.get(job_id)
+    input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], ide_job.file)
+    output_filepath = os.path.join(app.config['OUTPUT_FOLDER'], ide_job.file)
+    result = get_ide_output(input_filepath, output_filepath)
+
+    ide_job.result = result
+    # print('The ouptut result is :' % ide_job.result)
+    db.session.commit()
 
 
 @celery.task()

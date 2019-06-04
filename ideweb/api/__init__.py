@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 api_bp = Blueprint('api', __name__)
 
 
-class CdeApi(Api):
+class IdeApi(Api):
     """Customized subclass of Flask-Restplus/Flask-Restful Api."""
 
     def make_response(self, data, *args, **kwargs):
@@ -48,15 +48,15 @@ class CdeApi(Api):
             resp.headers['Content-Type'] = 'application/json'
             return resp
         # Otherwise do default Flask-RestPlus/Flask-Restful content-negotiation via Accept Header
-        return super(CdeApi, self).make_response(data, *args, **kwargs)
+        return super(IdeApi, self).make_response(data, *args, **kwargs)
 
 
 
-api = CdeApi(
+api = IdeApi(
     api_bp,
     version=b'1.0',
-    title=b'ChemDataExtractor REST API',
-    description=b'A web service for programmatically uploading documents to be processed using ChemDataExtractor on our servers.\n\n All endpoints are at constructed by appending to http://chemdataextractor.org/api'
+    title=b'ImageDataExtractor REST API',
+    description=b'A web service for programmatically uploading documents to be processed using ImageDataExtractor on our servers.\n\n All endpoints are at constructed by appending to http://imagedataextractor.org/api'
 )
 
 

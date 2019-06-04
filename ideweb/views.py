@@ -30,7 +30,7 @@ import six
 
 from . import app, tasks, db
 from .forms import RegisterForm
-from .models import CdeJob, User
+from .models import CdeJob, IdeJob , User
 from .tasks import celery
 
 
@@ -121,7 +121,9 @@ def demo():
     if request.method == 'POST':
         log.info(request.form)
         job_id = six.text_type(uuid.uuid4())
+        print(job_id)
         if 'input-file' in request.files:
+            print(job_id)
             file = request.files['input-file']
             if '.' not in file.filename:
                 abort(400, 'No file extension!')
@@ -130,55 +132,59 @@ def demo():
                 abort(400, 'Disallowed file extension!')
             filename = '%s.%s' % (job_id, extension)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            cde_job = CdeJob(file=filename, job_id=job_id)
-            db.session.add(cde_job)
+
+            ide_job = IdeJob(file=filename, job_id=job_id)
+            db.session.add(ide_job)
             db.session.commit()
-            async_result = tasks.run_cde.apply_async([cde_job.id], task_id=job_id)
+            print('About to run async')
+            async_result = tasks.run_ide.apply_async([ide_job.id], task_id=job_id)
+            print('Finished running async')
+            print(async_result.result)
             return redirect(url_for('results', result_id=async_result.id))
-        elif 'input-url' in request.form:
-            url = request.form['input-url']
-            r = requests.get(url)
-            extension = None
-            if 'Content-Type' in r.headers:
-                t = r.headers['Content-Type']
-                if 'text/html' in t:
-                    extension = 'html'
-                elif '/xml' in t:
-                    extension = 'xml'
-                elif '/pdf' in t:
-                    extension = 'pdf'
-            elif 'Content-Disposition' in r.headers:
-                d = r.headers['Content-Disposition']
-                m = re.search('filename=(.+)\.([^\.]+)', d)
-                if m:
-                    extension = m.group(2).lower()
-            else:
-                m = re.search('\.([a-z]+)$', url)
-                if m:
-                    extension = m.group(1).lower()
-            if not extension:
-                abort(400, 'Could not determine file type!')
-            if extension not in app.config['ALLOWED_EXTENSIONS']:
-                abort(400, 'Disallowed file extension!')
-            filename = '%s.%s' % (job_id, extension)
-            with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'wb') as f:
-                f.write(r.content)
-            cde_job = CdeJob(file=filename, job_id=job_id)
-            db.session.add(cde_job)
-            db.session.commit()
-            async_result = tasks.run_cde.apply_async([cde_job.id], task_id=job_id)
-            return redirect(url_for('results', result_id=async_result.id))
-        elif 'input-text' in request.form:
-            # save text file from request.form
-            input_text = request.form['input-text']
-            filename = '%s.txt' % job_id
-            with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'w') as f:
-                f.write(input_text.encode('utf-8'))
-            cde_job = CdeJob(file=filename, job_id=job_id)
-            db.session.add(cde_job)
-            db.session.commit()
-            async_result = tasks.run_cde.apply_async([cde_job.id], task_id=job_id)
-            return redirect(url_for('results', result_id=async_result.id))
+        # elif 'input-url' in request.form:
+        #     url = request.form['input-url']
+        #     r = requests.get(url)
+        #     extension = None
+        #     if 'Content-Type' in r.headers:
+        #         t = r.headers['Content-Type']
+        #         if 'text/html' in t:
+        #             extension = 'html'
+        #         elif '/xml' in t:
+        #             extension = 'xml'
+        #         elif '/pdf' in t:
+        #             extension = 'pdf'
+        #     elif 'Content-Disposition' in r.headers:
+        #         d = r.headers['Content-Disposition']
+        #         m = re.search('filename=(.+)\.([^\.]+)', d)
+        #         if m:
+        #             extension = m.group(2).lower()
+        #     else:
+        #         m = re.search('\.([a-z]+)$', url)
+        #         if m:
+        #             extension = m.group(1).lower()
+        #     if not extension:
+        #         abort(400, 'Could not determine file type!')
+        #     if extension not in app.config['ALLOWED_EXTENSIONS']:
+        #         abort(400, 'Disallowed file extension!')
+        #     filename = '%s.%s' % (job_id, extension)
+        #     with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'wb') as f:
+        #         f.write(r.content)
+        #     cde_job = CdeJob(file=filename, job_id=job_id)
+        #     db.session.add(cde_job)
+        #     db.session.commit()
+        #     async_result = tasks.run_cde.apply_async([cde_job.id], task_id=job_id)
+        #     return redirect(url_for('results', result_id=async_result.id))
+        # elif 'input-text' in request.form:
+        #     # save text file from request.form
+        #     input_text = request.form['input-text']
+        #     filename = '%s.txt' % job_id
+        #     with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'w') as f:
+        #         f.write(input_text.encode('utf-8'))
+        #     cde_job = CdeJob(file=filename, job_id=job_id)
+        #     db.session.add(cde_job)
+        #     db.session.commit()
+        #     async_result = tasks.run_cde.apply_async([cde_job.id], task_id=job_id)
+        #     return redirect(url_for('results', result_id=async_result.id))
 
         # Something must have been wrong...
         abort(400)
@@ -190,7 +196,7 @@ def demo():
 @app.route('/results/<result_id>')
 def results(result_id):
     task = celery.AsyncResult(result_id)
-    job = CdeJob.query.filter_by(job_id=result_id).first_or_404()
+    job = IdeJob.query.filter_by(job_id=result_id).first_or_404()
 
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
@@ -198,15 +204,19 @@ def results(result_id):
     has_important = False
     has_other = False
     if job.result:
-        for result in job.result:
-            for record in result.get('records', []):
-                has_result = True
-                if any(k in prop_keys for k in record.keys()):
-                    has_important = True
-                elif 'labels' in record or 'smiles' in record:
-                    has_other = True
-                else:
-                    has_important = True
+        has_result=True
+        has_important = True
+        has_other = True
+
+        # for result in job.result:
+        #     for record in result.get('records', []):
+        #         has_result = True
+        #         if any(k in prop_keys for k in record.keys()):
+        #             has_important = True
+        #         elif 'labels' in record or 'smiles' in record:
+        #             has_other = True
+        #         else:
+        #             has_important = True
 
     return render_template(
         'results.html',
