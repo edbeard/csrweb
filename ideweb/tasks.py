@@ -46,12 +46,21 @@ def get_ide_output(inf, outf):
 
     filename = inf.split('/')[-1].split('.')[0]
     filetype = inf.split('.')[-1]
+
+    # Zip all files together in the output folder
+    paths = [os.path.join(outf, filename, f) for f in os.listdir(os.path.join(outf, filename))]
+    with zipfile.ZipFile(os.path.join(outf, filename, filename + '.zip'), 'w') as zipme:
+        for file in paths:
+            zipme.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
+
+
     output = {'path':
                   {'hist': os.path.join(outf, filename, 'hist_' + filename + '.' + filetype),
                    'rdf': os.path.join(outf, filename,'rdf_' + filename + '.' + filetype),
                    'scalebar': os.path.join(outf, filename,'scalebar_' + filename + '.' + filetype),
                    'det': os.path.join(outf, filename, 'det_' + filename + '.' + filetype),
                    'meta': os.path.join(outf, filename, filename + '.txt'),
+                   'zip': os.path.join(outf, filename, filename + '.zip')
                    }
               }
     with open(output['path']['meta'], 'r') as f:

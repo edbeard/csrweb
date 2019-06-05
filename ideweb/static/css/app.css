@@ -192,6 +192,27 @@ pre > code {
   margin: 10px 0 20px 0;
 }
 
+.donwload-button-text{
+  font-size: 16px;
+  color: #ff0000;
+  text-align: right;
+
+}
+
+.results-text {
+  display: block;
+  font-size: 18px;
+  width: 450px;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.result-text-bold{
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .img-feature {
   height: 100px;
 }
@@ -202,8 +223,11 @@ pre > code {
 }
 
 .img-about {
+  display: block;
   padding-top: 20px;
-  width: 450px;
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
   }
 
 header h3 {

@@ -20,7 +20,7 @@ import os
 import re
 import uuid
 
-from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory
+from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, send_file
 import hoedown
 # from rdkit import Chem
 # from rdkit.Chem import AllChem
@@ -226,15 +226,13 @@ def results(result_id):
     )
 
 
-@app.route('/imgs/<job_id>/<type>')
+@app.route('/imgs/<job_id>/<type>', methods=['GET','POST'])
 def send_image(job_id, type):
     job = IdeJob.query.filter_by(job_id=job_id).first_or_404()
     full_path = job.result['path'][type]
     dir_path = os.path.join(app.config['OUTPUT_FOLDER'], full_path.split('/')[-2])
     img_file = full_path.split('/')[-1]
-    print(dir_path)
-    print(img_file)
-    return send_from_directory(dir_path, filename=img_file)
+    return send_from_directory(dir_path, as_attachment=True, filename=img_file)
 
 
 

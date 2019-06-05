@@ -431,15 +431,18 @@
           <div>
             <div class="download-container">
               <div class="btn-group">
-                <a href="{{ url_for('api.Jobs_ide_job_resource', job_id=job.job_id, format='sdf') }}" class="btn btn-default">Download Results</a>
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}" class="btn btn-default">RDF</a>
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='hist') }}" class="btn btn-default">Histogram</a>
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}" class="btn btn-default">Scalebar</a>
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='det') }}" class="btn btn-default">Particle Detection</a>
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='zip') }}" class="btn btn-default">Download All</a>
               </div>
+              <p class="donwload-button-text">Click a button to download results</p>
+
             </div>
             <div class="row">
               <div class="col-sm-8">
-                <p class="feature-display">Extraction successful!</p>
-
-                <p class="feature-display">Browse the output below or download the zip here (ADD DOWNLOAD LINK)</p>
-
+                <p class="result-text-bold"> Extraction successful!</p>
               </div>
             </div>
                   <ul class="nav nav-tabs" role="tablist">
@@ -452,22 +455,25 @@
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="tab-minrdf">
 
-                <p class="feature-display">The Minimum Radial Distribution Function (minRDF) of extracted particles: </p>
+
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}">
+                <p class="results-text">The Minimum Radial Distribution Function (minRDF) of extracted particles. </p>
 
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-hist">
-                <p class="feature-display">Histogram of particle sizes: </p>
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='hist') }}">
+                <p class="results-text">A histogram of particle sizes. </p>
 
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-scalebar">
-                <p class="feature-display">Extracted scalebar: </p>
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}">
+                <p class="results-text">Scalebar bounding box and extracted text. </p>
+
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-det">
-                <p class="feature-display">Extracted scalebar: </p>
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='det') }}">
+                <p class="results-text">Detected particles with confidence </p>
+
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-json">
                 <pre><code>{{ job.result | tojson(indent=2, ensure_ascii=False) }}</code></pre>

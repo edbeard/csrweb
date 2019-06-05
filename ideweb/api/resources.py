@@ -23,7 +23,7 @@ import werkzeug
 
 from .. import db
 from ..models import IdeJob
-from ..tasks import run_cde
+from ..tasks import run_cde, run_ide
 from . import api
 
 
@@ -51,7 +51,7 @@ result_parser.add_argument('output', help='Response format', location='query', c
 @jobs.route('/')
 # @api.doc(responses={400: 'Disallowed file type'})
 class IdeJobSubmitResource(Resource):
-    """Submit a new ChemDataExtractor job and get the job ID."""
+    """Submit a new ImageDataExtractor job and get the job ID."""
 
     @api.doc(description='Submit a new ImageDataExtractor job.', parser=submit_parser)
     @api.marshal_with(idejob_schema, code=201)
