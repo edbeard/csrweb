@@ -192,10 +192,11 @@ pre > code {
   margin: 10px 0 20px 0;
 }
 
-.donwload-button-text{
+.download-button-text{
   font-size: 16px;
   color: #ff0000;
   text-align: right;
+  clear:both;
 
 }
 
@@ -347,6 +348,17 @@ input[readonly] {
 
 .link-container.btn-group {
   display: block;
+}
+
+.download-all.btn.btn-default {
+    text-align: right;
+    align: right;
+}
+
+.download-all.btn-group{
+    float: right;
+    clear: both;
+    vertical-align: top;
 }
 
 .link-container a.btn {

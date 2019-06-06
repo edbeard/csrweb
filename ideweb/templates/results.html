@@ -430,14 +430,10 @@
         {% if not task.failed() and job.result is not none %}
           <div>
             <div class="download-container">
-              <div class="btn-group">
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}" class="btn btn-default">RDF</a>
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='hist') }}" class="btn btn-default">Histogram</a>
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}" class="btn btn-default">Scalebar</a>
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='det') }}" class="btn btn-default">Particle Detection</a>
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='zip') }}" class="btn btn-default">Download All</a>
+              <div class="download-all btn-group">
+                <a href="{{ url_for('send_image', job_id=job.job_id, type='zip') }}" class="download-all btn btn-default">Download</a>
               </div>
-              <p class="donwload-button-text">Click a button to download results</p>
+
 
             </div>
             <div class="row">
@@ -484,6 +480,7 @@
         {% elif task.failed() %}
           <p>Job failed</p>
           <p>Job ID: {{ job.job_id }}</p>
+          <p>Is your image over 50,000 pixels?</p>
         {% else %}
           <p>ImageDataExtractor is running...</p>
           <div class="progress">

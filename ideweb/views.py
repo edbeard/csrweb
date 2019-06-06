@@ -234,30 +234,3 @@ def send_image(job_id, type):
     img_file = full_path.split('/')[-1]
     return send_from_directory(dir_path, as_attachment=True, filename=img_file)
 
-
-
-#@app.route('/depict/<path:smiles>')
-# def depict(smiles):
-#     """Depict structure"""
-#     mol = Chem.MolFromSmiles(smiles)
-#
-#     mc = copy.deepcopy(mol)
-#     try:
-#         img = Draw.MolToImage(mc, size=(180, 180), kekulize=True, highlightAtoms=[])
-#     except ValueError:  # <- can happen on a kekulization failure
-#         mc = copy.deepcopy(mol)
-#         img = Draw.MolToImage(mc, size=(180, 180), kekulize=False, highlightAtoms=[])
-#     img_io = six.BytesIO()
-#     img.save(img_io, 'PNG')
-#     img_io.seek(0)
-#     return Response(response=img_io.getvalue(), status=200, mimetype='image/png')
-
-
-# @app.route('/mol/<path:smiles>')
-# def mol(smiles):
-#     """Return MOL for SMILES."""
-#     mol = Chem.MolFromSmiles(smiles)
-#     AllChem.Compute2DCoords(mol)
-#     mb = Chem.MolToMolBlock(mol)
-#     return Response(response=mb, status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=structure.mol'})
-
