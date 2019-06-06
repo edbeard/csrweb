@@ -476,7 +476,7 @@
 
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-json">
-                <pre><code>{{ job.result | tojson(indent=2, ensure_ascii=False) }}</code></pre>
+                <pre><code>{{ job.result['meta'] | e }}</code></pre>
               </div>
             </div>
           </div>
