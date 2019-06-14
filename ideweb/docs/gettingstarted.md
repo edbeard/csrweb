@@ -28,4 +28,4 @@ To automatically extract microscopy images from a HTML or XML article, use the `
     
 And that's it!
 
-ImageDataExtractor currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html)
+ImageDataExtractor currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .

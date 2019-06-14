@@ -101,7 +101,7 @@ def docs(docfile):
         abort(404)
     try:
         with open(source_path) as mf:
-            content = hoedown.html(mf.read().decode('utf-8'))
+            content = hoedown.html(mf.read())
             prev_i = toc.index(docfile) - 1
             prev = toc[prev_i] if prev_i >= 0 else None
             next_i = toc.index(docfile) + 1

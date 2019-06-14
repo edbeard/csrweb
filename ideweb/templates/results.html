@@ -454,6 +454,7 @@
 
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}">
                 <p class="results-text">The Minimum Radial Distribution Function (minRDF) of extracted particles. </p>
+                <p> <i>Please note that the MinRDF resolution used in this demo is lower than in ImageDataExtractor. Download the full version <a href="{{ url_for('download') }}">here</a>. </i></p>
 
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-hist">
@@ -482,7 +483,8 @@
           <p>Job ID: {{ job.job_id }}</p>
           <p>Is your image over 50,000 pixels?</p>
         {% else %}
-          <p>ImageDataExtractor is running...</p>
+        <p><b>ImageDataExtractor is running!</b> </p>
+        <p> This may take a few minutes...</p>
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
           </div>
