@@ -28,3 +28,6 @@ RESTPLUS_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'full'
 
 OPSIN_PATH = '/usr/local/bin/opsin'
+
+BASIC_AUTH_USERNAME = 'default'
+BASIC_AUTH_PASSWORD = 'default'

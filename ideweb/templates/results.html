@@ -442,19 +442,19 @@
               </div>
             </div>
                   <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#tab-minrdf" role="tab" data-toggle="tab">Minimum RDF</a></li>
-              <li role="presentation"><a href="#tab-hist" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
-              <li role="presentation"><a href="#tab-scalebar" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
+              <li role="presentation" class="active"><a href="#tab-scalebar" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
               <li role="presentation"><a href="#tab-det" role="tab" data-toggle="tab">Particle Detection</a></li>
+              <li role="presentation"><a href="#tab-hist" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
+              <li role="presentation"><a href="#tab-minrdf" role="tab" data-toggle="tab">Minimum RDF</a></li>
               <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Metadata</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="tab-minrdf">
-
+              <div role="tabpanel" class="tab-pane" id="tab-minrdf">
 
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}">
                 <p class="results-text">The Minimum Radial Distribution Function (minRDF) of extracted particles. </p>
                 <p> <i>Please note that the MinRDF resolution used in this demo is lower than in ImageDataExtractor. Download the full version <a href="{{ url_for('download') }}">here</a>. </i></p>
+
 
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-hist">
@@ -462,7 +462,7 @@
                 <p class="results-text">A histogram of particle sizes. </p>
 
               </div>
-              <div role="tabpanel" class="tab-pane" id="tab-scalebar">
+              <div role="tabpanel" class="tab-pane active" id="tab-scalebar">
                 <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}">
                 <p class="results-text">Scalebar bounding box and extracted text. </p>
 

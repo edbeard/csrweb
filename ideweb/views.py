@@ -21,6 +21,8 @@ import re
 import uuid
 
 from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, send_file
+from flask_basicauth import BasicAuth
+
 import hoedown
 # from rdkit import Chem
 # from rdkit.Chem import AllChem
@@ -36,8 +38,10 @@ from .tasks import celery
 
 log = logging.getLogger(__name__)
 
+basic_auth = BasicAuth(app)
 
 @app.route('/')
+@basic_auth.required
 def index():
     return render_template('index.html')
 
@@ -230,7 +234,19 @@ def results(result_id):
 def send_image(job_id, type):
     job = IdeJob.query.filter_by(job_id=job_id).first_or_404()
     full_path = job.result['path'][type]
-    dir_path = os.path.join(app.config['OUTPUT_FOLDER'], full_path.split('/')[-2])
-    img_file = full_path.split('/')[-1]
-    return send_from_directory(dir_path, as_attachment=True, filename=img_file)
+    fail_path = 'static/img'
+
+    print('Image full path is... %s' % full_path)
+
+    # Check that file was produced
+    if os.path.isfile(full_path):
+        dir_path = os.path.join(app.config['OUTPUT_FOLDER'], full_path.split('/')[-2])
+        img_file = full_path.split('/')[-1]
+        return send_from_directory(dir_path, as_attachment=True, filename=img_file)
+    elif type == 'rdf':
+        return send_from_directory(fail_path, as_attachment=True, filename='minRDF_fail.png')
+    elif type == 'hist':
+        return send_from_directory(fail_path, as_attachment=True, filename='hist_fail.png')
+
+
 

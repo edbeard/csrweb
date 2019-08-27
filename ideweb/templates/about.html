@@ -18,15 +18,15 @@
 
 
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#tab-fig-mining" role="tab" data-toggle="tab">Figure Mining</a></li>
+        <li role="presentation" class="active"><a href="#tab-img-mining" role="tab" data-toggle="tab">Image Mining</a></li>
         <li role="presentation"><a href="#tab-particle-detection" role="tab" data-toggle="tab">Particle Detection</a></li>
         <li role="presentation"><a href="#tab-calculation-metrics" role="tab" data-toggle="tab">Calculate Metrics</a></li>
       </ul>
       <div class="tab-content">
 
-        <div role="tabpanel" class="tab-pane active"  id="tab-fig-mining">
-            <h2>Figure Mining</h2>
-          <p>First relevant figures are automatically detected from scientific articles and separation into their constituent images.</p>
+        <div role="tabpanel" class="tab-pane active"  id="tab-img-mining">
+            <h2>Image Mining</h2>
+          <p>Figure captions within scientific documents are first mined with <a href="https://github.com/edbeard/chemdataextractor-ide">ChemDataExtractor</a> using keywords that identify possible microscopy images within them. If the corresponding Figures of the document are of the form of multiple image panels, these panels are then separated into their constituent images.</p>
               <section class="section section-default">
                 <div class="container">
                   <div class="row">
@@ -41,8 +41,7 @@
                         <a href="https://github.com/edbeard/chemdataextractor-ide">
                         ChemDataExtractor
                         </a>
-                        to automatically detect relevant images from a
-                        given HTML or XML document.
+                        to automatically detect relevant images from within Figures of a given HTML or XML document.
                       </p>
                     </div>
 
@@ -83,7 +82,7 @@
                     <div class="col-sm-6">
                       <h3>Scalebar Detection</h3>
                       <p class="feature-display">
-                        Scalebar regions are located and the value and unit of the scale read using optical character resolution.
+                        Scalebar regions are located and the value and unit of the scale read using optical character recognition.
                       </p>
                       <p class="feature-display">
                         The number of pixels in the scalebar is used to calculate a scale mapping for the image.
@@ -136,7 +135,7 @@
                         The contours are filtered by removing all contours with insufficient variation in pixel intensity.
                       </p>
                       <p class="feature-display">
-                        <small><em>A different image is used here due to the lack of false positives on the main example.</em></small>
+                        <small><em>A different image to the running example is used here due to the lack of false positives in the main example.</em></small>
                       </p>
                   </div>
                     <div class="col-sm-6 text-center">
@@ -223,7 +222,7 @@
 
         <div role="tabpanel" class="tab-pane" id="tab-calculation-metrics">
            <h2>Calculate Metrics</h2>
-          <p>Now that the extraction is done, lets look at the results!</p>
+          <p>Now that the extraction is done, let's look at the results!</p>
           <p>ImageDataExtractor automatically generates useful graphics for easy interpretation.</p>
               <section class="section section-default">
                 <div class="container">

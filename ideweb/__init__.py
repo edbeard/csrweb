@@ -15,6 +15,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import logging
 import os
+import json
 
 from celery import Celery
 from flask import Flask, request
@@ -52,8 +53,15 @@ app = Flask(__name__, instance_relative_config=True)
 
 # Load default configuration
 app.config.from_object('ideweb.default_config')
+
+# Importing specific config settings
+#app.config.from_json('/etc/config.json')
+
+print("The apps database URI is %s" % app.config['SQLALCHEMY_DATABASE_URI'])
+print("The apps broker URI is %s" % app.config['CELERY_BROKER_URL'])
+
 # Load deployment-specific configuration from file in the instance folder
-app.config.from_pyfile('config.py', silent=True)
+#app.config.from_pyfile('config.py', silent=True)
 
 # Register extensions
 db = SQLAlchemy(app)
