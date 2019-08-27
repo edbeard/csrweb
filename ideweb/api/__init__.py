@@ -3,7 +3,7 @@
 ideweb.api
 ~~~~~~~~~~
 
-REST API for ChemDataExtractor.
+REST API for ImageDataExtractor.
 
 :copyright: Copyright 2016 by Matt Swain.
 :license: MIT, see LICENSE file for more details.
@@ -20,7 +20,6 @@ from flask_restplus import Api
 
 
 log = logging.getLogger(__name__)
-
 
 api_bp = Blueprint('api', __name__)
 
@@ -51,12 +50,11 @@ class IdeApi(Api):
         return super(IdeApi, self).make_response(data, *args, **kwargs)
 
 
-
 api = IdeApi(
     api_bp,
-    version=b'1.0',
-    title=b'ImageDataExtractor REST API',
-    description=b'A web service for programmatically uploading documents to be processed using ImageDataExtractor on our servers.\n\n All endpoints are at constructed by appending to http://imagedataextractor.org/api'
+    version='1.0',
+    title='ImageDataExtractor REST API',
+    description='A web service for programmatically uploading documents to be processed using ImageDataExtractor on our servers.\n\n All endpoints are at constructed by appending to http://imagedataextractor.org/api'
 )
 
 

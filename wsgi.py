@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-cdweb.wsgi
+ideweb.wsgi
 ~~~~~~~~~~
 
 wsgi script.
