@@ -15,9 +15,7 @@ ImageDataExtractor also supports `.zip`, `.tar` and `.tar.gz` inputs.
 
 ## Output locations
 
-In addition to the output graphs, images are in the following locations for debugging purposes:
-
-**Side note - should we default deleting these after? Seems like a lot of unwanted output for the user... We could just include when they say debug=True?**
+In addition to the output graphs, images are in the following locations for transparency:
 
 - `raw_images` : Contains the images that were downloaded from the article 
 - `split_photo_images` : Individual images after the first splitting algorithm (whitespace)

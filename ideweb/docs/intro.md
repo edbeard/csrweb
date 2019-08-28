@@ -18,4 +18,4 @@ This guide provides a quick tour through ImageDataExtractor concepts and functio
 
 If you use ImageDataExtractor as a resource in your research, please cite the following work:
 
-> *Insert IDE citation here.* 
+> *Add citation here after publication.*
