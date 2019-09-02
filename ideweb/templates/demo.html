@@ -5,10 +5,14 @@
 {% block content %}
   <div class="container page-container">
     <h1>Online Demo</h1>
-    <p>Upload a document or image to try ImageDataExtractor online. Alternatively, check out one of our <a href="#tab-examples" id="example-link">example files</a>.</p>
+
+
+    <p>Upload a single image to try ImageDataExtractor online. Alternatively, check out one of our <a href="#tab-examples" id="example-link">example files</a>.</p>
     <p>
-      This demo has been configured to extract SEM and TEM images.
-      To customize this, download the <a href="https://github.com/edbeard/chemdataextractor-ide">ChemDataExtractor toolkit</a> and write your own parser.
+      Please note that this demo has been configured to only extract single SEM and TEM images. The full version of the tool can split multiple images from a panel of images and it can function together with a bespoke version of  <a href="https://github.com/edbeard/chemdataextractor-ide">ChemDataExtractor</a> to identify and extract microscopy images from documents.
+    </p>
+    <p>
+      Please <a href="/docs/install">install</a> the ImageDataExtractor and ChemDataExtractor plug in to test the full version of this tool. If extracting from a document please use HTML or XML from <a href="https://www.rsc.org">Royal Society of Chemistry</a> or <a href="https://www.elsevier.com">Elsevier</a> publishers. To employ articles from other publishers, please download the <a href="https://github.com/edbeard/chemdataextractor-ide">ChemDataExtractor toolkit</a> and write your own parser.
     </p>
     <div>
       <ul class="nav nav-tabs" role="tablist">
@@ -18,7 +22,7 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="tab-file">
-          <p>This demo works best for high resolution images. If extracting from a document please use HTML or XML from <a href="https://www.rsc.org">Royal Society of Chemistry</a> or <a href="https://www.elsevier.com">Elsevier</a> publishers.</p>
+          <p>This demo works best for high resolution images, where the depth cueing is limited, where particle heterogeneity is not too extensive, and where the images contain particles rather than bespoke objects (such as the microscopy imprint of an insect).</p>
           <form class="form" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <div class="input-group">
@@ -32,7 +36,6 @@
               <button id="submit-file" class="btn btn-lg btn-primary">Submit</button>
             </div>
           </form>
-          <p><i><small>Please note that ImageDataExtractor works best where the depth cueing is limited and where the images contain particles rather than bespoke objects or highly heterogeneous contents.</small></i></p>
 
         </div>
 

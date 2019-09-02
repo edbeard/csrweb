@@ -427,7 +427,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        {% if not task.failed() and job.result is not none %}
+        {% if not task.failed() and job.result['path'] %}
           <div>
             <div class="download-container">
               <div class="download-all btn-group">
@@ -477,7 +477,14 @@
               </div>
             </div>
           </div>
-
+        {% elif not task.failed() and job.result is not none%}
+            <h1><b>Extraction Failed...</b></h1>
+            <p>
+                Extraction failed to complete. This is likely because the image is unsuited to this lightweight demo.
+            </p>
+            <p>
+                Please <a href="{{ url_for('download')}}">download</a> the full version and run locally, or try another image.
+            </p>
         {% elif task.failed() %}
           <p>Job failed</p>
           <p>Job ID: {{ job.job_id }}</p>

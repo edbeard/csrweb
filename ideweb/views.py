@@ -19,6 +19,8 @@ import logging
 import os
 import re
 import uuid
+import signal
+import gc
 
 from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, send_file
 from flask_basicauth import BasicAuth
@@ -119,9 +121,14 @@ def docs(docfile):
 def contact():
     return render_template('contact.html')
 
+# Function for timeout
+# def handler(signum, frame):
+#     print('Job took over 2 mins 30 secounds...')
+#     raise Exception()
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
+
     if request.method == 'POST':
         log.info(request.form)
         job_id = six.text_type(uuid.uuid4())
@@ -141,10 +148,16 @@ def demo():
             db.session.add(ide_job)
             db.session.commit()
             print('About to run async')
+            # signal.signal(signal.SIGALRM, handler)
+            # signal.alarm(5)
             async_result = tasks.run_ide.apply_async([ide_job.id], task_id=job_id)
+
             print('Finished running async')
             print(async_result.result)
+
+            gc.collect()
             return redirect(url_for('results', result_id=async_result.id))
+
         # elif 'input-url' in request.form:
         #     url = request.form['input-url']
         #     r = requests.get(url)
@@ -192,8 +205,10 @@ def demo():
 
         # Something must have been wrong...
         abort(400)
+        gc.collect()
 
     else:
+        gc.collect()
         return render_template('demo.html')
 
 
@@ -233,13 +248,18 @@ def results(result_id):
 @app.route('/imgs/<job_id>/<type>', methods=['GET','POST'])
 def send_image(job_id, type):
     job = IdeJob.query.filter_by(job_id=job_id).first_or_404()
-    full_path = job.result['path'][type]
     fail_path = 'static/img'
+
+    if 'path' in job.result.keys():
+        full_path = job.result['path'][type]
+    else:
+        full_path = None
+        return None
 
     print('Image full path is... %s' % full_path)
 
     # Check that file was produced
-    if os.path.isfile(full_path):
+    if os.path.isfile(full_path) and full_path is not None:
         dir_path = os.path.join(app.config['OUTPUT_FOLDER'], full_path.split('/')[-2])
         img_file = full_path.split('/')[-1]
         return send_from_directory(dir_path, as_attachment=True, filename=img_file)
