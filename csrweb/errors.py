@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.errors
+csrweb.errors
 ~~~~~~~~~~~~~
 
 Error views.

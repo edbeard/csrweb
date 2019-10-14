@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.api
+csrweb.api
 ~~~~~~~~~~
 
 REST API for ImageDataExtractor.

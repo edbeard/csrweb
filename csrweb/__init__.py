@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb
+csrweb
 ~~~~~~
 
 Website for ChemDataExtractor.
@@ -52,7 +52,7 @@ def register_blueprints(app):
 app = Flask(__name__, instance_relative_config=True)
 
 # Load default configuration
-app.config.from_object('ideweb.default_config')
+app.config.from_object('csrweb.default_config')
 
 # Importing specific config settings
 #app.config.from_json('/etc/config.json')

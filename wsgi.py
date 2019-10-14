@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.wsgi
+csrweb.wsgi
 ~~~~~~~~~~
 
 wsgi script.
@@ -11,6 +11,6 @@ import sys
 
 
 # Ensure the main project directory is on the path
-sys.path.insert(0, '/var/www/apps/ideweb')
+sys.path.insert(0, '/var/www/apps/csrweb')
 
-from ideweb import app as application
+from csrweb import app as application

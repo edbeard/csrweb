@@ -1,0 +1,3 @@
+hoedown
+psycopg2-binary
+flask_basicauth

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.tasks
+csrweb.tasks
 ~~~~~~~~~~~~
 
 Celery tasks.
@@ -21,7 +21,7 @@ import zipfile
 
 import cirpy
 
-from imagedataextractor import extract_images, extract_document, extract_documents
+from chemschematicresolver import extract_diagram
 
 from chemdataextractor import Document
 from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
@@ -29,7 +29,7 @@ from chemdataextractor.text.normalize import chem_normalize
 from natsort import natsort
 
 from . import app, db, make_celery
-from .models import IdeJob, CdeJob, ChemDict
+from .models import IdeJob, ChemDict
 
 log = logging.getLogger(__name__)
 
@@ -37,32 +37,32 @@ celery = make_celery(app)
 
 
 def get_ide_output(inf, outf):
-
-    extract_images(inf, outf)
-
-    filename = inf.split('/')[-1].split('.')[0]
-    filetype = inf.split('.')[-1]
-
-    # Zip all files together in the output folder
-    paths = [os.path.join(outf, filename, f) for f in os.listdir(os.path.join(outf, filename))]
-    with zipfile.ZipFile(os.path.join(outf, filename, filename + '.zip'), 'w') as zipme:
-        for file in paths:
-            zipme.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
-
-
-    output = {'path':
-                  {'hist': os.path.join(outf, filename, 'hist_' + filename + '.' + filetype),
-                   'rdf': os.path.join(outf, filename,'rdf_' + filename + '.' + filetype),
-                   'scalebar': os.path.join(outf, filename,'scalebar_' + filename + '.' + filetype),
-                   'det': os.path.join(outf, filename, 'det_' + filename + '.' + filetype),
-                   'meta': os.path.join(outf, filename, filename + '.txt'),
-                   'zip': os.path.join(outf, filename, filename + '.zip')
-                   }
-              }
-    with open(output['path']['meta'], 'r') as f:
-        output['meta'] = f.read()
-
-    return output
+    pass
+    # extract_images(inf, outf)
+    #
+    # filename = inf.split('/')[-1].split('.')[0]
+    # filetype = inf.split('.')[-1]
+    #
+    # # Zip all files together in the output folder
+    # paths = [os.path.join(outf, filename, f) for f in os.listdir(os.path.join(outf, filename))]
+    # with zipfile.ZipFile(os.path.join(outf, filename, filename + '.zip'), 'w') as zipme:
+    #     for file in paths:
+    #         zipme.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
+    #
+    #
+    # output = {'path':
+    #               {'hist': os.path.join(outf, filename, 'hist_' + filename + '.' + filetype),
+    #                'rdf': os.path.join(outf, filename,'rdf_' + filename + '.' + filetype),
+    #                'scalebar': os.path.join(outf, filename,'scalebar_' + filename + '.' + filetype),
+    #                'det': os.path.join(outf, filename, 'det_' + filename + '.' + filetype),
+    #                'meta': os.path.join(outf, filename, filename + '.txt'),
+    #                'zip': os.path.join(outf, filename, filename + '.zip')
+    #                }
+    #           }
+    # with open(output['path']['meta'], 'r') as f:
+    #     output['meta'] = f.read()
+    #
+    # return output
 
 
 def get_result(f, fname):
@@ -141,33 +141,3 @@ def run_ide(job_id):
     # print('The ouptut result is :' % ide_job.result)
     db.session.commit()
 
-
-@celery.task()
-def run_cde(job_id):
-    cde_job = CdeJob.query.get(job_id)
-    job_result = []
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], cde_job.file)
-    if filepath.endswith('.zip'):
-        zf = zipfile.ZipFile(filepath)
-        for zipname in zf.namelist():
-            if '.' not in zipname:
-                continue
-            extension = zipname.rsplit('.', 1)[1]
-            if extension not in app.config['ALLOWED_EXTENSIONS']:
-                continue
-            with zf.open(zipname) as f:
-                result = get_result(f, zipname)
-                result = add_structures(result)
-            with zf.open(zipname) as f:
-                result['biblio'] = get_biblio(f, zipname)
-            if result:
-                job_result.append(result)
-    else:
-        with open(filepath) as f:
-            result = get_result(f, filepath)
-            result = add_structures(result)
-        with open(filepath) as f:
-            result['biblio'] = get_biblio(f, os.path.basename(filepath))
-        job_result.append(result)
-    cde_job.result = job_result
-    db.session.commit()

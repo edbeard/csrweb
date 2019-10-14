@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.views
+csrweb.views
 ~~~~~~~~~~~~
 
 Main website views.
@@ -34,7 +34,7 @@ import six
 
 from . import app, tasks, db
 from .forms import RegisterForm
-from .models import CdeJob, IdeJob , User
+from .models import IdeJob, User
 from .tasks import celery
 
 

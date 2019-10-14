@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.api.representations
+csrweb.api.representations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 API response formats.

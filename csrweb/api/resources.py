@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ideweb.api.resources
+csrweb.api.resources
 ~~~~~~~~~~~~~~~~~~~~
 
 API resources.
@@ -23,7 +23,7 @@ import werkzeug
 
 from .. import db
 from ..models import IdeJob
-from ..tasks import run_cde, run_ide
+from ..tasks import run_ide
 from . import api
 
 
