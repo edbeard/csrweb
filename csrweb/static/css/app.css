@@ -23,11 +23,11 @@ p {
 }
 
 a, .btn-link {
-  color: #ff0000;
+  color: #008000;
 }
 
 a:hover, .btn-link:hover {
-  color: #800000;
+  color: #008000;
 }
 
 pre {
@@ -87,7 +87,7 @@ pre > code {
 }
 
 .navbar-default .navbar-brand {
-  color: #ff0000;
+  color: #008000;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -95,7 +95,7 @@ pre > code {
 }
 
 .navbar-default .navbar-nav>li>a:hover {
-  color: #ff0000;
+  color: #008000;
 }
 
 .navbar-nav>li>a {
@@ -137,7 +137,7 @@ pre > code {
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-  background-color: #cc0000;
+  background-color: #2E8B57;
 }
 
 .nav-pills>li>a {
@@ -168,23 +168,23 @@ pre > code {
 
 .section-invert {
   color: #fff;
-  background-color: #cc0000;
+  background-color: #006400;
 }
 
 .btn-invert {
-  color: #cc0000;
+  color: #006400;
   background-color: #fff;
   border-color: #fff;
 }
 
 .btn-primary {
-  background-color: #cc0000;
-  border-color: #cc0000;
+  background-color: #006400;
+  border-color: #006400;
 }
 
 .btn-primary:hover {
-  background-color: #800000;
-  border-color: #800000;
+  background-color: #2E8B57;
+  border-color: #008000;
 }
 
 .feature-display {
@@ -194,7 +194,7 @@ pre > code {
 
 .download-button-text{
   font-size: 16px;
-  color: #ff0000;
+  color: #008000;
   text-align: right;
   clear:both;
 
@@ -239,8 +239,8 @@ header h3 {
 
 footer {
   padding: 50px 0;
-  color: #4d5152;
-  background-color: #4d0000;
+  color: #006400;
+  background-color: #006400;
 }
 
 @media (max-width:992px) {
@@ -326,7 +326,7 @@ input[readonly] {
 }
 
 .label-primary {
-  background-color: #ff0000;
+  background-color: #008000;
 }
 
 .name-container, .label-container, .link-container, .smiles-container {
@@ -371,7 +371,7 @@ input[readonly] {
 }
 
 *[data-toggle="collapse"]:hover {
-  color: #ff0000;
+  color: #008000;
 }
 
 th {
