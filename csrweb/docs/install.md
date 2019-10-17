@@ -1,40 +1,29 @@
 # Installation
 
-This section outlines the steps required to install ImageDataExtractor. 
+This section outlines the steps required to install ChemSchematicResolver. The simplest way is to do this through [conda](https://docs.conda.io/en/latest). 
 
-We **strongly** advise the use of a **virtual environment** when installing ImageDataExtractor (Click [here](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) to learn how.)
+### Option 1 - Installation via Conda
 
-### Step 1: Install ChemDataExtractor-IDE
+Anaconda Python is a self-contained Python environment that is useful for scientific applications.
 
-In order to use ImageDataExtractor first install the bespoke version of ChemDataExtractor, ChemDataExtractor-IDE. 
+First, install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) which has a complete Python distribution and the conda package manager. We recommend using Python 3.6 at this point.
 
-ChemDataExtractor-IDE is a text-mining tool that is used to identify microscopy images from scientific documents.
+Once it is installed, go to the command line terminal and type
 
-First clone the repository by running:
-
-    $ git clone https://github.com/edbeard/chemdataextractor-ide.git
+    conda install -c edbeard chemschematicresolver
     
-and install with:
+This command installs *ChemSchematicResolver* from the author's channel, which automatically installs all dependencies.
+This includes [pyosra](https://github.com/edbeard/pyosra), the Python wrapper for the OSRA toolkit, and [ChemDataExtracor-CSR](https://github.com/edbeard/chemdataextractor-csr), the bespoke version of ChemDataExtractor containing diagram parsers.
 
-    $ python setup.py install
-    
-Then download the required machine learning models with:
+*This method of installation is currently supported on linux machines only*
 
-    $ cde data download
-    
-*See https://github.com/edbeard/chemdataextractor-ide for more details*
+### Option 2 - Installation from source
 
-### Step 2: Install Tesseract 3
+We strongly recommend installation via conda whenever possible as all the dependencies are automatically handled. 
+If this cannot be done, users are invited to compile the code from source. To do this please follow the instructions in the README files for the following github repositories, in the order below:
 
-ImageDataExtractor currently uses **Tesseract 3** for text recognition. You can check your existing version by running:
+1. Install [Pyosra](https://github.com/edbeard/pyosra)
 
-    $ tesseract -v
+2. Install [ChemDataExtracor-CSR](https://github.com/edbeard/chemdataextractor-csr)
 
-The source code for the correct installation can be downloaded [here](https://github.com/tesseract-ocr/tesseract/tree/3.05) if required.
-Instructions for compiling on your machine can be found [here](https://github.com/tesseract-ocr/tesseract/wiki/Compiling).
-
-### Step 3: Install ImageDataExtractor
-
-To install ImageDataExtractor and all it's remaining dependencies, simply run:
-
-    $ pip install imagedataextractor
+3. Install [ChemSchematicResolver](https://github.com/edbeard/ChemSchematicResolver)

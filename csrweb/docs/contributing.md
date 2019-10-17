@@ -4,21 +4,21 @@ Contributions of any kind are greatly appreciated!
 
 ## Feedback & Discussion
 
-The [Issue Tracker](https://github.com/ktm2/ImageDataExtractor/issues) is the best place to post any feature ideas, 
+The [Issue Tracker](https://github.com/edbeard/ChemSchematicResolver/issues) is the best place to post any feature ideas, 
 requests and bug reports. This way, everyone has the opportunity to keep informed of changes and join the discussion on 
 future plans.
 
 ## Contributing Code
 
-If you are able to contribute changes yourself, just fork the [source code](https://github.com/ktm2/ImageDataExtractor) 
+If you are able to contribute changes yourself, just fork the [source code](https://github.com/edbeard/ChemSchematicResolver) 
 on GitHub, make changes and file a pull request. All contributions are welcome, no matter how big or small.
 
 ## Quick Guide to Contributing
 
-1. [Fork the ImageDataExtractor repository on GitHub](https://github.com/ktm2/ImageDataExtractor/fork), then clone your 
+1. [Fork the ChemSchematicResolver repository on GitHub](https://github.com/edbeard/ChemSchematicResolver/fork), then clone your 
    fork to your local machine:
 
-        git clone https://github.com/<your-username>/ImageDataExtractor.git
+        git clone https://github.com/<your-username>/ChemSchematicResolver.git
 
 2. Install the requirements, as outlined in [Installation](install)
 
@@ -34,8 +34,8 @@ on GitHub, make changes and file a pull request. All contributions are welcome, 
         git commit -m "<description-of-changes>"
         git push origin <name-for-branch>
 
-4. [Submit a pull request](https://github.com/ktm2/ImageDataExtractor/compare/). Then we can discuss your changes and
-   merge them into the main ImageDataExtractor repository.
+4. [Submit a pull request](https://github.com/edbeard/ChemSchematicResolver/compare/). Then we can discuss your changes and
+   merge them into the main ChemSchematicResolver repository.
 
 ## Tips
 

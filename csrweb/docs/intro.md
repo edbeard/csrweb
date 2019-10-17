@@ -1,13 +1,13 @@
-# ImageDataExtractor Documentation
+# ChemSchematicResolver Tutorial
 
 
-**ImageDataExtractor** is a toolkit for the automatic extraction of data from microscopy images.
+**ChemSchematicResolver** is a toolkit for the automatic resolution of chemical schematic diagrams and their labels.
 
-This guide provides a quick tour through ImageDataExtractor concepts and functionality.
+This guide provides a quick tour through ChemSchematicResolver concepts and functionality.
 
 ## Features
 
-- Automatic detection and download of microscopy images from scientific articles
+- Automatic detection and download of schematic chemical diagrams from scientific articles
 - HTML and XML document format support from RSC and Elsevier
 - High-throughput capabilities
 - Direct extraction from image files
@@ -16,6 +16,6 @@ This guide provides a quick tour through ImageDataExtractor concepts and functio
 
 ## Citing
 
-If you use ImageDataExtractor as a resource in your research, please cite the following work:
+If you use ChemSchematicResolver as a resource in your research, please cite the following work:
 
 > *Add citation here after publication.*

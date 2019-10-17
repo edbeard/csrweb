@@ -1,31 +1,29 @@
 # Getting Started
 
-This page gives a introduction on how to get started with ImageDataExtractor. This assumes you already have
-ImageDataExtractor and ChemDataExtractor-IDE [installed](install).
+This page gives a introduction on how to get started with ChemSchematicResolver. This assumes you already have
+ChemSchematicResolver and all dependencies [installed](install).
 
 ## Extract Image
-It's simplest to run ImageDataExtractor on an image file.
+It's simplest to run ChemSchematicResolver on an image file.
 
 Open a python terminal and import the library with: 
 
-    >>> import imagedataextractor as ide
+    >>> import chemschematicresolver as csr
     
 Then run:
 
-    >>> ide.extract_image('<path/to/image/file>')
+    >>> csr.extract_diagram('<path/to/image/file>')
     
 to perform the extraction. 
 
-This runs ImageDataExtractor on the image and outputs all extracted results to a single directory.
-
-By default, the output from each image is stored in current working directory in the format `<doc#>_<doi>_<figid>_<splitfig#>` 
+This runs ChemSchematicResolver on the image and returns a list of tuples. Each tuple consists of a SMILES string and a list of label candidates, where each tuple identifies a unique structure.
 
 ## Extract Document
 
-To automatically extract microscopy images from a HTML or XML article, use the `extract_document` method instead:
+To automatically extract the structures and labels of diagrams from a HTML or XML article, use the `extract_document` method instead:
  
-    >>> ide.extract_document('<path/to/document/file>')
+    >>> csr.extract_document('<path/to/document/file>')
     
-And that's it!
+ChemSchematicResolver will return the complete chemical records from the document extracted with [ChemDataExtractor](www.chemdataextractor.org), enriched with extracted diagram structure and label. 
 
-ImageDataExtractor currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .
+The tool currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and [Springer](https://www.springer.com), as well as XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .
