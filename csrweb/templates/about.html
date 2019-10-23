@@ -68,10 +68,13 @@
                       <div id="about-text-container">
                         <div class="about-text">
                           <p class="feature-display">
-                            The image is segmented into regions of interest using connected component analysis.
+                            First, the image is sub-divided into regions of interest.
                           </p>
                           <p class="feature-display">
-                            Small gaps in the image are blurred over using morphological transforms, to ensure each region includes all features in the near vicinity.
+                            Small gaps in the image are blurred over to ensure that each region contains all features in the near vicinity.
+                          </p>
+                          <p class="feature-display">
+                            The connected paths of these blurred pixels are then used to locate the regions of interest.
                           </p>
                         </div>
                       </div>
@@ -88,13 +91,10 @@
                       <div id="about-text-container">
                         <div class="about-text">
                       <p class="feature-display">
-                        The regions of interest are classified as labels or diagrams using <i>k</i>-means clustering
+                        The regions of interest are classified as labels or diagrams using a <i>k</i>-means clustering algorithm.
                       </p>
                         </div>
                       </div>
-                      <p>
-                        <i>Chemical diagrams (green), labels (blue)</i>
-                      </p>
                     </div>
 
                       <div class="col-sm-6 text-center">
@@ -113,17 +113,17 @@
             {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
                     </div>
                     <div class="col-sm-6">
-                      <h3>Resolve Structures</h3>
+                      <h3>Match Chemicals and Labels</h3>
                         <div id="about-text-container">
                           <div class="about-text">
                       <p class="feature-display">
                         Diagrams and labels are paired up via a proximity-driven algorithm.
                       </p>
+                      <p class="feature-display">
+                        The pairs are shown in the same colour.
+                      </p>
                           </div>
                         </div>
-                      <p>
-                        <i>Matched diagrams and labels are indicated by the same colour.</i>
-                      </p>
                       </div>
 
                   </div>
@@ -133,7 +133,7 @@
 
         <div role="tabpanel" class="tab-pane" id="tab-resolve-structures">
            <h2>Resolve Structures</h2>
-          <p class="feature-display">Next, diagrams and labels are resolved to a machine-readable format.</p>
+          <p class="feature-display">Next, diagrams and labels are resolved into a machine-readable format.</p>
               <section class="section section-default">
                 <div class="container">
                   <div class="row">
@@ -145,7 +145,7 @@
                       <h3>Reading Labels</h3>
                         <div id="about-text-container">
                           <div class="about-text">
-                            <p class="feature-display">Optical Character Recognition <b>(OCR)</b> is applied to each label to resolve it to a text string, which is then tokenized.</p>
+                            <p class="feature-display">Optical Character Recognition <b>(OCR)</b> is applied to each label to convert it into a text string, which is then tokenized.</p>
                           </div>
                         </div>
                     </div>
@@ -160,10 +160,10 @@
                         <div id="about-text-container">
                           <div class="about-text">
                             <p class="feature-display">
-                              Resolved labels are scanned for features that indicate <b>R-group</b> structures, and the relevant values are extracted when found.
+                              <b>R-group</b> structures use variables (such as R) in place of certain atoms in the chemical diagram. The values that R can take are described in the label.
                             </p>
                             <p class="feature-display">
-                              R-group structures use variables (such as R) in place of certain atoms in the chemical diagram. The values that R can take are described in the label, and are extracted by ChemSchematicResolver.
+                              Resolved labels are scanned for features that indicate R-group structures, and the relevant values are extracted by ChemSchematicResolver.
                             </p>
                           </div>
                         </div>
@@ -188,7 +188,7 @@
                         <div id="about-text-container">
                           <div class="about-text">
                             <p class="feature-display">
-                              Chemical diagrams are resolved using <a href="https://github.com/edbeard/pyosra">pyosra</a>, a wrapper around the <a href="https://sourceforge.net/p/osra/wiki/Home/"> OSRA</a> toolkit that has been extended to account for R-Groups.
+                              Chemical diagrams are resolved using <a href="https://github.com/edbeard/pyosra">pyosra</a>, a Python tool that extends the capabilities of <a href="https://sourceforge.net/p/osra/wiki/Home/"> OSRA</a> to allows for R-groups structures.
                             </p>
                             <p class="feature-display">
                               The software returns a simplified molecular line-entry system <b>(SMILES)</b> string which describes the chemical structure
