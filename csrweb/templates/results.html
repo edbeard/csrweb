@@ -427,7 +427,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        {% if not task.failed() and job.result['path'] %}
+        {% if not task.failed() and job.result %}
           <div>
             <div class="download-container">
               <div class="download-all btn-group">
@@ -442,55 +442,51 @@
               </div>
             </div>
                   <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#tab-hist" role="tab" data-toggle="tab">Particle Size Histogram</a></li>
-              <li role="presentation"><a href="#tab-minrdf" role="tab" data-toggle="tab">Minimum RDF</a></li>
-              <li role="presentation"><a href="#tab-scalebar" role="tab" data-toggle="tab">Scalebar Extraction</a></li>
-              <li role="presentation"><a href="#tab-det" role="tab" data-toggle="tab">Particle Detection</a></li>
-              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Metadata</a></li>
+              <li role="presentation" class="active"><a href="#tab-recs" role="tab" data-toggle="tab">Chemical Records</a></li>
+              <li role="presentation"><a href="#tab-minrdf" role="tab" data-toggle="tab">Placeholder</a></li>
+              <li role="presentation"><a href="#tab-scalebar" role="tab" data-toggle="tab">Placeholder</a></li>
+              <li role="presentation"><a href="#tab-det" role="tab" data-toggle="tab">Placeholder</a></li>
+              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Placeholder</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane" id="tab-minrdf">
+              <div role="tabpanel" class="tab-pane" id="tab-recs">
 
-                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='rdf') }}">
-                <p class="results-text">The Minimum Radial Distribution Function (minRDF) of extracted particles. </p>
-                <p> <i>Please note that the MinRDF resolution used in this demo is lower than in ImageDataExtractor. Download the full version <a href="{{ url_for('download') }}">here</a>. </i></p>
-
+                <p class="results-text">The output for this diagram is:</p>
+                <div class="text-muted small text-right"> The output for this diagram is:
+                  <div class="smiles-container">
+                    <p> Successfully ran the demo </p>
+                    {% for result in job.result %}
+                      <p>SMILES : {{ result.smiles }}</p>
+                      <p>LABELS: </p>
+                      {% for label in result.labels %}
+                        <p> {{ label.value }}</p>
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
+                </div>
 
               </div>
-              <div role="tabpanel" class="tab-pane active" id="tab-hist">
-                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='hist') }}">
-                <p class="results-text">A histogram of particle sizes. </p>
-
+              <div role="tabpanel" class="tab-pane active" id="tab-minrdf">
+                <p class="results-text">nada</p>
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-scalebar">
-                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='scalebar') }}">
-                <p class="results-text">Scalebar bounding box and extracted text. </p>
-
+                <p class="results-text">nada </p>
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-det">
-                <img class="img-about" src="{{ url_for('send_image', job_id=job.job_id, type='det') }}">
-                <p class="results-text">Detected particles with confidence </p>
-
+                <p class="results-text">nada</p>
               </div>
               <div role="tabpanel" class="tab-pane" id="tab-json">
-                <pre><code>{{ job.result['meta'] | e }}</code></pre>
+                <p class="results-text">nada</p>
               </div>
             </div>
           </div>
-        {% elif not task.failed() and job.result is not none%}
-            <h1><b>Extraction Failed...</b></h1>
-            <p>
-                Extraction failed to complete. This is likely because the image is unsuited to this lightweight demo.
-            </p>
-            <p>
-                Please <a href="{{ url_for('download')}}">download</a> the full version and run locally, or try another image.
-            </p>
         {% elif task.failed() %}
           <p>Job failed</p>
           <p>Job ID: {{ job.job_id }}</p>
-          <p>Is your image over 50,000 pixels?</p>
+          <p>Task output: {{ task}} </p>
+          <p>Job output : {{ job.result}} </p>
         {% else %}
-        <p><b>ImageDataExtractor is running!</b> </p>
+        <p><b>ChemSchematicResolver is running!</b> </p>
         <p> This may take a few minutes...</p>
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>

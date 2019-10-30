@@ -21,7 +21,6 @@ import zipfile
 
 import cirpy
 
-from chemschematicresolver import extract_diagram
 
 from chemdataextractor import Document
 from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
@@ -29,15 +28,15 @@ from chemdataextractor.text.normalize import chem_normalize
 from natsort import natsort
 
 from . import app, db, make_celery
-from .models import IdeJob, ChemDict
+from .models import CsrJob, ChemDict, CsrLabel, CsrRecord
 
 log = logging.getLogger(__name__)
 
 celery = make_celery(app)
 
-
-def get_ide_output(inf, outf):
-    pass
+#
+# def get_ide_output(inf, outf):
+#     pass
     # extract_images(inf, outf)
     #
     # filename = inf.split('/')[-1].split('.')[0]
@@ -65,18 +64,22 @@ def get_ide_output(inf, outf):
     # return output
 
 
-def get_result(f, fname):
+def get_result(fname):
+    """ Obtains the result from """
+
     try:
-        document = Document.from_file(f, fname=fname)
-    except Exception:
-        return {}
-    records = document.records.serialize()
-    records = natsort.natsorted(records, lambda x: x.get('labels', ['ZZZ%s' % (99 - len(x.get('names', [])))])[0])
-    result = {
-        'records': records,
-        'abbreviations': document.abbreviation_definitions
-    }
-    return result
+        print('is there any output hre?')
+        # records = extract_image(fname)
+        import osra_rgroup
+        var = osra_rgroup.read_diagram('osra_temp.gif')
+        print('Was anything extracted?: %s' % var)
+        records = var
+    except:
+        print('An exception occurred while running extract_image.')
+        return 'Exception in get_result function'
+    print('records are : %s' % records)
+
+    return [(['1a'], 'C1CCCCC1')]
 
 
 def get_biblio(f, fname):
@@ -128,16 +131,21 @@ def add_structures(result):
 
 
 @celery.task()
-def run_ide(job_id):
+def run_csr(job_id):
 
-    print('Entered the run_ide task')
-    ide_job = IdeJob.query.get(job_id)
-    input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], ide_job.file)
-    print( input_filepath)
-    result = get_ide_output(input_filepath, app.config['OUTPUT_FOLDER'])
-
-    print('Result is %s' % result)
-    ide_job.result = result
+    print('Entering the run_csr task...')
+    csr_job = CsrJob.query.get(job_id)
+    input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], csr_job.file)
+    print('Path to input image is %s' % input_filepath)
+    results = get_result(input_filepath)
+    print('Results are %s' % results)
+    for result in results:
+        labels, smiles = result[0], result[1]
+        csr_record = CsrRecord(smiles=smiles, csr_job=csr_job)
+        for label in labels:
+            csr_label = CsrLabel(value=label, csr_record=csr_record)
+            db.session.add(csr_label)
+        db.session.add(csr_record)
     # print('The ouptut result is :' % ide_job.result)
     db.session.commit()
 

@@ -34,7 +34,7 @@ import six
 
 from . import app, tasks, db
 from .forms import RegisterForm
-from .models import IdeJob, User
+from .models import CsrJob, User
 from .tasks import celery
 
 
@@ -121,10 +121,6 @@ def docs(docfile):
 def contact():
     return render_template('contact.html')
 
-# Function for timeout
-# def handler(signum, frame):
-#     print('Job took over 2 mins 30 secounds...')
-#     raise Exception()
 
 @app.route('/demo', methods=['GET', 'POST'])
 def demo():
@@ -132,9 +128,8 @@ def demo():
     if request.method == 'POST':
         log.info(request.form)
         job_id = six.text_type(uuid.uuid4())
-        print(job_id)
+        print('File has been submitted to demo with job_id %s' % job_id)
         if 'input-file' in request.files:
-            print(job_id)
             file = request.files['input-file']
             if '.' not in file.filename:
                 abort(400, 'No file extension!')
@@ -144,17 +139,14 @@ def demo():
             filename = '%s.%s' % (job_id, extension)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            ide_job = IdeJob(file=filename, job_id=job_id)
-            db.session.add(ide_job)
+            csr_job = CsrJob(file=filename, job_id=job_id)
+            db.session.add(csr_job)
             db.session.commit()
-            print('About to run async')
-            # signal.signal(signal.SIGALRM, handler)
-            # signal.alarm(5)
-            async_result = tasks.run_ide.apply_async([ide_job.id], task_id=job_id)
-
-            print('Finished running async')
-            print(async_result.result)
-
+            print('Running the task queue.')
+            try:
+                async_result = tasks.run_csr.apply_async([csr_job.id], task_id=job_id)
+            except Exception as e:
+                print(e)
             gc.collect()
             return redirect(url_for('results', result_id=async_result.id))
 
@@ -215,16 +207,20 @@ def demo():
 @app.route('/results/<result_id>')
 def results(result_id):
     task = celery.AsyncResult(result_id)
-    job = IdeJob.query.filter_by(job_id=result_id).first_or_404()
+    job = CsrJob.query.filter_by(job_id=result_id).first_or_404()
 
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
-    output = os.path.join(app.config['OUTPUT_FOLDER'], job.file)
     has_result = False
 
     if job.result:
-        has_result=True
-
+        has_result = True
+        print('We now have the result...')
+        print(job)
+        for result in job.result:
+            for label in result.labels:
+                print('The label is:')
+                print(label.value)
 
         # for result in job.result:
         #     for record in result.get('records', []):
@@ -236,18 +232,21 @@ def results(result_id):
         #         else:
         #             has_important = True
 
+
+    print('Has result is: %s' % has_result)
+    print('job result is %s' % job.result)
+
     return render_template(
         'results.html',
         task=task,
         job=job,
-        has_result=has_result,
-        output=output
+        has_result=has_result
     )
 
 
 @app.route('/imgs/<job_id>/<type>', methods=['GET','POST'])
 def send_image(job_id, type):
-    job = IdeJob.query.filter_by(job_id=job_id).first_or_404()
+    job = CsrJob.query.filter_by(job_id=job_id).first_or_404()
     fail_path = 'static/img'
 
     if 'path' in job.result.keys():

@@ -3,9 +3,9 @@
 csrweb.api
 ~~~~~~~~~~
 
-REST API for ImageDataExtractor.
+REST API for ChemSchematicResolver.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard
 :license: MIT, see LICENSE file for more details.
 """
 
@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 api_bp = Blueprint('api', __name__)
 
 
-class IdeApi(Api):
+class CsrApi(Api):
     """Customized subclass of Flask-Restplus/Flask-Restful Api."""
 
     def make_response(self, data, *args, **kwargs):
@@ -43,18 +43,18 @@ class IdeApi(Api):
             return resp
         # If text/html (i.e. browser default) make sure we return JSON not XML
         if 'text/html' in request.accept_mimetypes:
-            resp = self.representations['application/json'](data, *args, **kwargs)
-            resp.headers['Content-Type'] = 'application/json'
+            resp = self.representations['application/xml'](data, *args, **kwargs)
+            resp.headers['Content-Type'] = 'application/xml'
             return resp
         # Otherwise do default Flask-RestPlus/Flask-Restful content-negotiation via Accept Header
-        return super(IdeApi, self).make_response(data, *args, **kwargs)
+        return super(CsrApi, self).make_response(data, *args, **kwargs)
 
 
-api = IdeApi(
+api = CsrApi(
     api_bp,
     version='1.0',
-    title='ImageDataExtractor REST API',
-    description='A web service for programmatically uploading documents to be processed using ImageDataExtractor on our servers.\n\n All endpoints are at constructed by appending to http://imagedataextractor.org/api'
+    title='ChemSchematicResolver REST API',
+    description='A web service for programmatically uploading documents to be processed using ChemSchematicResolver on our servers.\n\n All endpoints are at constructed by appending to http://chemschematicresolver.org/api'
 )
 
 

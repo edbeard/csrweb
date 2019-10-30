@@ -7,6 +7,7 @@ This guide provides a quick tour through ChemSchematicResolver concepts and func
 
 ## Features
 
+- Extraction of generic R-Group structures
 - Automatic detection and download of schematic chemical diagrams from scientific articles
 - HTML and XML document format support from RSC and Elsevier
 - High-throughput capabilities
