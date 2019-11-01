@@ -43,8 +43,8 @@ class CsrApi(Api):
             return resp
         # If text/html (i.e. browser default) make sure we return JSON not XML
         if 'text/html' in request.accept_mimetypes:
-            resp = self.representations['application/xml'](data, *args, **kwargs)
-            resp.headers['Content-Type'] = 'application/xml'
+            resp = self.representations['application/json'](data, *args, **kwargs)
+            resp.headers['Content-Type'] = 'application/json'
             return resp
         # Otherwise do default Flask-RestPlus/Flask-Restful content-negotiation via Accept Header
         return super(CsrApi, self).make_response(data, *args, **kwargs)

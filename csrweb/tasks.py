@@ -26,9 +26,15 @@ from chemdataextractor import Document
 from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
 from chemdataextractor.text.normalize import chem_normalize
 from natsort import natsort
+import time
+
+from chemschematicresolver import extract_image
 
 from . import app, db, make_celery
 from .models import CsrJob, ChemDict, CsrLabel, CsrRecord
+import osra_rgroup
+from celery.contrib import rdb
+
 
 log = logging.getLogger(__name__)
 
@@ -68,18 +74,19 @@ def get_result(fname):
     """ Obtains the result from """
 
     try:
-        print('is there any output hre?')
-        # records = extract_image(fname)
-        import osra_rgroup
-        var = osra_rgroup.read_diagram('osra_temp.gif')
-        print('Was anything extracted?: %s' % var)
-        records = var
-    except:
-        print('An exception occurred while running extract_image.')
-        return 'Exception in get_result function'
-    print('records are : %s' % records)
+        log.debug('is there any output here?')
+        smile = osra_rgroup.read_diagram(fname)
+        # rdb.set_trace()
+        log.debug('Trying to output to debug after running pybind11 code...')
+        log.debug(smile)
+        records = [(['1a'], smile)]
+        # rdb.set_trace()
 
-    return [(['1a'], 'C1CCCCC1')]
+    except Exception as e:
+        log.debug('An exception occurred while running read_diagram.')
+        records = ['fake_smile']
+
+    return records
 
 
 def get_biblio(f, fname):
@@ -94,58 +101,46 @@ def get_biblio(f, fname):
     return biblio
 
 
-def add_structures(result):
-    # Run OPSIN
-    with tempfile.NamedTemporaryFile(delete=False) as tf:
-        for record in result['records']:
-            for name in record.get('names', []):
-                tf.write(('%s\n' % name).encode('utf-8'))
-    subprocess.call([app.config['OPSIN_PATH'], '--allowRadicals', '--wildcardRadicals', '--allowAcidsWithoutAcid', '--allowUninterpretableStereo', tf.name, '%s.result' % tf.name])
-    with open('%s.result' % tf.name) as res:
-        structures = [line.strip() for line in res]
-        i = 0
-        for record in result['records']:
-            for name in record.get('names', []):
-                if 'smiles' not in record and structures[i]:
-                    log.debug('Resolved with OPSIN: %s = %s', name, structures[i])
-                    record['smiles'] = structures[i]
-                i += 1
-    os.remove(tf.name)
-    os.remove('%s.result' % tf.name)
-    # For failures, use NCI CIR (with local cache of results)
-    for record in result['records']:
-        for name in record.get('names', []):
-            if 'smiles' not in record:
-                local_entry = ChemDict.query.filter_by(name=name).first()
-                if local_entry:
-                    log.debug('Resolved with local dict: %s = %s', name, local_entry.smiles)
-                    if local_entry.smiles:
-                        record['smiles'] = local_entry.smiles
-                else:
-                    smiles = cirpy.resolve(chem_normalize(name).encode('utf-8'), 'smiles')
-                    log.debug('Resolved with CIR: %s = %s', name, smiles)
-                    db.session.add(ChemDict(name=name, smiles=smiles))
-                    if smiles:
-                        record['smiles'] = smiles
+def add_name(result):
+    # Run NCI CIR to get chemical names
+    print('Have entered the add_name function')
+    if result.smiles:
+        local_entry = ChemDict.query.filter_by(smiles=result.smiles).first()
+        print('Local entry: %s' % local_entry)
+        if local_entry:
+            log.debug('Resolved with local dict: %s = %s', result.smiles, local_entry.name)
+            result.name = local_entry.name
+        else:
+            try:
+                name = cirpy.resolve(result.smiles, 'iupac_name')
+                log.debug('Resolved with CIR: %s = %s', result.smiles, name)
+                db.session.add(ChemDict(name=name, smiles=result.smiles))
+                result.name = name
+            except Exception as e:
+                log.warning('Couldn\'t resolve smiles: %s' % result.smiles)
+                pass
     return result
 
 
-@celery.task()
+@celery.task(name='csrweb.tasks.run_csr')
 def run_csr(job_id):
 
-    print('Entering the run_csr task...')
+    log.debug('Entering the run_csr task...')
     csr_job = CsrJob.query.get(job_id)
     input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], csr_job.file)
-    print('Path to input image is %s' % input_filepath)
+    log.debug('Path to input image is %s' % input_filepath)
+    log.debug('Detected csr_job is: %s' % csr_job.result)
     results = get_result(input_filepath)
-    print('Results are %s' % results)
+    log.debug('Results are %s' % results)
     for result in results:
-        labels, smiles = result[0], result[1]
+        labels, smiles = result[0], result[1].replace('\n', '')
         csr_record = CsrRecord(smiles=smiles, csr_job=csr_job)
+        csr_record = add_name(csr_record)
+        db.session.add(csr_record)
         for label in labels:
             csr_label = CsrLabel(value=label, csr_record=csr_record)
             db.session.add(csr_label)
-        db.session.add(csr_record)
+        log.debug('Name extracted: %s' % csr_record.name)
     # print('The ouptut result is :' % ide_job.result)
     db.session.commit()
 

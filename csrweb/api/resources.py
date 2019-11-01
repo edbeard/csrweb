@@ -37,9 +37,17 @@ csrjob_schema = api.model('CsrJob', {
     'job_id': fields.String(required=True, description='Unique job ID'),
     'created_at': fields.DateTime(required=True, description='Job creation timestamp'),
     'status': fields.String(required=True, description='Current job status'),
-    'result': fields.Raw(required=False, description='Job results')
 })
 
+labels = {}
+labels['value'] = fields.String
+
+result = {}
+result['smiles'] = fields.String
+result['name'] = fields.String
+result['labels'] = fields.Nested(labels)
+
+csrjob_schema['result'] = fields.Nested(result)
 
 submit_parser = api.parser()
 submit_parser.add_argument('file', type=werkzeug.datastructures.FileStorage, required=True, help='The input file.', location='files')
@@ -53,7 +61,7 @@ result_parser.add_argument('output', help='Response format', location='query', c
 class CsrJobSubmitResource(Resource):
     """Submit a new ChemSchematicResolver job and get the job ID."""
 
-    @api.doc(description='Submit a new ImageDataExtractor job.', parser=submit_parser)
+    @api.doc(description='Submit a new ChemSchematicResolver job.', parser=submit_parser)
     @api.marshal_with(csrjob_schema, code=201)
     def post(self):
         """Submit a new job."""

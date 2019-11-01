@@ -22,14 +22,13 @@ import uuid
 import signal
 import gc
 
-from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, send_file
+from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, Response
 from flask_basicauth import BasicAuth
 
 import hoedown
-# from rdkit import Chem
-# from rdkit.Chem import AllChem
-# from rdkit.Chem import Draw
-import requests
+from rdkit import Chem
+from rdkit.Chem import AllChem
+from rdkit.Chem import Draw
 import six
 
 from . import app, tasks, db
@@ -142,12 +141,15 @@ def demo():
             csr_job = CsrJob(file=filename, job_id=job_id)
             db.session.add(csr_job)
             db.session.commit()
-            print('Running the task queue.')
+            log.debug('Running the task queue.')
             try:
                 async_result = tasks.run_csr.apply_async([csr_job.id], task_id=job_id)
+                print('Async result is...')
+                print(async_result)
             except Exception as e:
+                print('Exception thrown in demo')
                 print(e)
-            gc.collect()
+            print('REached end of demo POST')
             return redirect(url_for('results', result_id=async_result.id))
 
         # elif 'input-url' in request.form:
@@ -196,7 +198,6 @@ def demo():
         #     return redirect(url_for('results', result_id=async_result.id))
 
         # Something must have been wrong...
-        abort(400)
         gc.collect()
 
     else:
@@ -208,6 +209,7 @@ def demo():
 def results(result_id):
     task = celery.AsyncResult(result_id)
     job = CsrJob.query.filter_by(job_id=result_id).first_or_404()
+    print('job is: %s' % job.job_id)
 
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
@@ -221,6 +223,7 @@ def results(result_id):
             for label in result.labels:
                 print('The label is:')
                 print(label.value)
+            print('The name is: %s' % result.name)
 
         # for result in job.result:
         #     for record in result.get('records', []):
@@ -242,6 +245,32 @@ def results(result_id):
         job=job,
         has_result=has_result
     )
+
+
+@app.route('/depict/<path:smiles>')
+def depict(smiles):
+    """Depict structure"""
+    mol = Chem.MolFromSmiles(smiles)
+
+    mc = copy.deepcopy(mol)
+    try:
+        img = Draw.MolToImage(mc, size=(180, 180), kekulize=True, highlightAtoms=[])
+    except ValueError:  # <- can happen on a kekulization failure
+        mc = copy.deepcopy(mol)
+        img = Draw.MolToImage(mc, size=(180, 180), kekulize=False, highlightAtoms=[])
+    img_io = six.BytesIO()
+    img.save(img_io, 'PNG')
+    img_io.seek(0)
+    return Response(response=img_io.getvalue(), status=200, mimetype='image/png')
+
+
+@app.route('/mol/<path:smiles>')
+def mol(smiles):
+    """Return MOL for SMILES."""
+    mol = Chem.MolFromSmiles(smiles)
+    AllChem.Compute2DCoords(mol)
+    mb = Chem.MolToMolBlock(mol)
+    return Response(response=mb, status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=structure.mol'})
 
 
 @app.route('/imgs/<job_id>/<type>', methods=['GET','POST'])

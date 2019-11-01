@@ -49,6 +49,7 @@ class CsrRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('csr_job.id'), nullable=False)
     smiles = db.Column(db.String, nullable=True)
+    name = db.Column(db.String, nullable=True)
     labels = db.relationship('CsrLabel', backref='csr_record', lazy=True)
 
 
