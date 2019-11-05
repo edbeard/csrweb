@@ -214,11 +214,17 @@ def results(result_id):
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
     has_result = False
+    none_extracted = False
 
     if job.result:
         has_result = True
         print('We now have the result...')
         print(job)
+
+        # Detecting case where no results were extracted...
+        if len(job.result) == 1 and job.result[0].smiles == 'NA':
+            none_extracted = True
+
         for result in job.result:
             for label in result.labels:
                 print('The label is:')
@@ -243,7 +249,8 @@ def results(result_id):
         'results.html',
         task=task,
         job=job,
-        has_result=has_result
+        has_result=has_result,
+        none_extracted=none_extracted
     )
 
 
@@ -251,13 +258,26 @@ def results(result_id):
 def depict(smiles):
     """Depict structure"""
     mol = Chem.MolFromSmiles(smiles)
-
+    if mol is None:
+        return send_from_directory('static/img', as_attachment=True, filename='failed_resolution.svg')
+    print('Molecule loaded: %s' % mol)
     mc = copy.deepcopy(mol)
+    print('molecule loaded')
     try:
+        print('trying to draw molecule')
         img = Draw.MolToImage(mc, size=(180, 180), kekulize=True, highlightAtoms=[])
-    except ValueError:  # <- can happen on a kekulization failure
+        print('molecule drawn')
+    except Exception as e:  # <- can happen on a kekulization failure
+        print('Error:')
         mc = copy.deepcopy(mol)
+        # try:
+        print('value error when trying with kekulization')
         img = Draw.MolToImage(mc, size=(180, 180), kekulize=False, highlightAtoms=[])
+        print('molcule drawn with kekulization = False')
+        # except ValueError:
+        #     print('value error when trying without kekulization')
+        #     print('Could not resolve SMILES to structure: %s' % smiles)
+        #     return send_from_directory('static/img', as_attachment=True, filename='failed_resolution.svg')
     img_io = six.BytesIO()
     img.save(img_io, 'PNG')
     img_io.seek(0)

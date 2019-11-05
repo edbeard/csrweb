@@ -32,8 +32,6 @@ from chemschematicresolver import extract_image
 
 from . import app, db, make_celery
 from .models import CsrJob, ChemDict, CsrLabel, CsrRecord
-import osra_rgroup
-from celery.contrib import rdb
 
 
 log = logging.getLogger(__name__)
@@ -74,18 +72,11 @@ def get_result(fname):
     """ Obtains the result from """
 
     try:
-        log.debug('is there any output here?')
-        smile = osra_rgroup.read_diagram(fname)
-        # rdb.set_trace()
-        log.debug('Trying to output to debug after running pybind11 code...')
-        log.debug(smile)
-        records = [(['1a'], smile)]
-        # rdb.set_trace()
+        records = extract_image(fname, allow_wildcards=True)
 
     except Exception as e:
-        log.debug('An exception occurred while running read_diagram.')
-        records = ['fake_smile']
-
+        log.warning('An exception occurred while running extract_image!')
+        records = []
     return records
 
 
@@ -113,12 +104,26 @@ def add_name(result):
         else:
             try:
                 name = cirpy.resolve(result.smiles, 'iupac_name')
-                log.debug('Resolved with CIR: %s = %s', result.smiles, name)
-                db.session.add(ChemDict(name=name, smiles=result.smiles))
-                result.name = name
+                if name:
+                    log.debug('Resolved with CIR: %s = %s', result.smiles, name)
+                    db.session.add(ChemDict(name=name, smiles=result.smiles))
+                    result.name = name
             except Exception as e:
                 log.warning('Couldn\'t resolve smiles: %s' % result.smiles)
                 pass
+    return result
+
+
+def canonicalize_smiles(result):
+    # Run NCI CIR to get chemical names
+
+    print('SMILES before cirpy: %s' % result.smiles)
+    if result.smiles:
+        canon_smiles = cirpy.resolve(result.smiles, 'smiles')
+        if canon_smiles:
+            result.smiles = canon_smiles
+
+    print('SMILES after cirpy: %s' % result.smiles)
     return result
 
 
@@ -131,16 +136,24 @@ def run_csr(job_id):
     log.debug('Path to input image is %s' % input_filepath)
     log.debug('Detected csr_job is: %s' % csr_job.result)
     results = get_result(input_filepath)
-    log.debug('Results are %s' % results)
-    for result in results:
-        labels, smiles = result[0], result[1].replace('\n', '')
-        csr_record = CsrRecord(smiles=smiles, csr_job=csr_job)
-        csr_record = add_name(csr_record)
+    if not results:
+        log.debug('No results extracted.')
+        csr_record = CsrRecord(smiles='NA', name='NA', csr_job=csr_job)
         db.session.add(csr_record)
-        for label in labels:
-            csr_label = CsrLabel(value=label, csr_record=csr_record)
-            db.session.add(csr_label)
-        log.debug('Name extracted: %s' % csr_record.name)
+
+    else:
+        log.debug('Results extracted successfully.')
+        for result in results:
+            labels, smiles = result[0], result[1].replace('\n', '')
+            log.debug('Smiles: %s , Labels : %s ' % (smiles, labels))
+            csr_record = CsrRecord(smiles=smiles, csr_job=csr_job)
+            csr_record = canonicalize_smiles(csr_record)
+            csr_record = add_name(csr_record)
+            db.session.add(csr_record)
+            for label in labels:
+                csr_label = CsrLabel(value=label, csr_record=csr_record)
+                db.session.add(csr_label)
+            log.debug('Name extracted: %s' % csr_record.name)
     # print('The ouptut result is :' % ide_job.result)
     db.session.commit()
 

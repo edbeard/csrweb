@@ -33,8 +33,6 @@ class CsrApi(Api):
         mediatypes = {
             'json': 'application/json',
             'xml': 'application/xml',
-            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'sdf': 'chemical/x-mdl-sdfile'
         }
         mediatype = mediatypes.get(request.args.get('format'))
         if mediatype in self.representations:

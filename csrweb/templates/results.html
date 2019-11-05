@@ -11,7 +11,9 @@
       <div class="compound-meta{% if record.smiles %} has-img{% endif %}">
         {% if record.smiles %}
           <div class="name-container">
-            <div>{{ record['name'] }}</div>
+            {% if record['name'] %}
+              <div>{{ record['name'] }}</div>
+            {% endif %}
           </div>
         {% endif %}
         {% if record.labels %}
@@ -336,51 +338,58 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        {% if not task.failed() and job.result|length %}
+        {% if not task.failed() and job.result|length and not none_extracted %}
           <div>
             <div class="download-container">
               <div class="download-all btn-group">
-                <a href="{{ url_for('send_image', job_id=job.job_id, type='zip') }}" class="download-all btn btn-default">Download</a>
+                <a href="{{ url_for('api.Jobs_csr_job_resource', job_id=job.job_id) }}" class="download-all btn btn-default">JSON</a>
+                <a href="{{ url_for('api.Jobs_csr_job_resource', job_id=job.job_id, format='xml') }}" class="download-all btn btn-default">XML</a>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-8">
                 <p class="result-text-bold"> Extraction successful!</p>
+                <p>The extracted structures are shown below:</p>
               </div>
             </div>
-                  <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#tab-recs" role="tab" data-toggle="tab">Chemical Records</a></li>
-              <li role="presentation"><a href="#tab-minrdf" role="tab" data-toggle="tab">Placeholder</a></li>
-              <li role="presentation"><a href="#tab-scalebar" role="tab" data-toggle="tab">Placeholder</a></li>
-              <li role="presentation"><a href="#tab-det" role="tab" data-toggle="tab">Placeholder</a></li>
-              <li role="presentation"><a href="#tab-json" role="tab" data-toggle="tab">Placeholder</a></li>
-            </ul>
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="tab-recs">
-                <div class="text-muted small text-right">Name-to-structure powered by <a href="http://cactus.nci.nih.gov/chemical/structure">NCI CIR</a></div>
+                <div class="text-muted small text-right">Structure-to-name powered by <a href="http://cactus.nci.nih.gov/chemical/structure">NCI CIR</a></div>
+                <div class="text-muted small text-right">SMILES-to-diagram powered by <a href="http://rdkit.org/">rdkit</a></div>
                   <div class="smiles-container">
-                    <p> Successfully ran the demo </p>
                     {% for result in job.result %}
-                      Job id: {{ job.id }}
                       {{ display_compound(result, loop.index0) }}
                     {% endfor %}
                   </div>
 
               </div>
-              <div role="tabpanel" class="tab-pane" id="tab-minrdf">
-                <p class="results-text">nada</p>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-scalebar">
-                <p class="results-text">nada </p>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-det">
-                <p class="results-text">nada</p>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-json">
-                <p class="results-text">nada</p>
-              </div>
-            </div>
-          </div>
+        {% elif none_extracted %}
+           <div>
+             <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-4 text-center">
+                      <img class="img-about-logo" src="{{ url_for('static', filename='img/failed_resolution.svg') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-8 align-middle">
+                      <div id="about-text-container">
+                        <div class="about-text">
+                          <p class="feature-display">
+                            <b>ChemSchematicResolver was unable to resolve any structures.</b>
+                          </p>
+                          <p>
+                            Please try uploading an image with greater resolution.
+                          </p>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+
+        </div>
+
         {% elif task.failed() %}
           <p>Job failed</p>
           <p>Job ID: {{ job.job_id }}</p>
@@ -388,11 +397,10 @@
           <p>Job output : {{ job.result}} </p>
         {% else %}
         <p><b>ChemSchematicResolver is running!</b> </p>
-        <p> This may take a few minutes...</p>
+        <p>Images with multiple diagrams and/or larger molecules will take longer to resolve...</p>
           <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
           </div>
-        <p> job result: {{job.result}}</p>
         {% endif %}
       </div>
     </div>
