@@ -1,8 +1,4 @@
-# Advanced
-
-This section outlines a few advanced options for using ChemSchematicResolver.
-
-### Large-scale Extraction
+# Large Scale Extraction
 
 ChemSchematicResolver can be used for high-throughput data extraction using two methods.
 

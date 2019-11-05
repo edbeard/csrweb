@@ -88,14 +88,15 @@ def docs_index():
 def docs(docfile):
 
     toc = [
-        'intro', 'install', 'gettingstarted', 'advanced', 'contributing'
+        'intro', 'install', 'gettingstarted', 'largescale', 'wildcards', 'contributing'
     ]
 
     titles = {
         'intro': 'Introduction',
         'install': 'Installation',
         'gettingstarted': 'Getting Started',
-        'advanced': 'Advanced Usage',
+        'largescale': 'Large Scale Extraction',
+        'wildcards': 'Wildcard Results',
         'contributing': 'Contributing'
     }
 
