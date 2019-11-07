@@ -39,10 +39,10 @@ csrjob_schema = api.model('CsrJob', {
     'status': fields.String(required=True, description='Current job status'),
 })
 
-labels = {}
+labels = dict()
 labels['value'] = fields.String
 
-result = {}
+result = dict()
 result['smiles'] = fields.String
 result['name'] = fields.String
 result['labels'] = fields.Nested(labels)
@@ -53,7 +53,7 @@ submit_parser = api.parser()
 submit_parser.add_argument('file', type=werkzeug.datastructures.FileStorage, required=True, help='The input file.', location='files')
 
 result_parser = api.parser()
-result_parser.add_argument('output', help='Response format', location='query', choices=['txt'])
+result_parser.add_argument('output', help='Response format', location='query', choices=['json', 'xml'])
 
 
 @jobs.route('/')

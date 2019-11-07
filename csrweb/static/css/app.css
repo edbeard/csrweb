@@ -457,15 +457,26 @@ th {
 }
 
 .doc-icon {
-  float: left;
-  width: 80px;
+  max-width: 550px;
+  max-height: 300px;
+  border: 2px solid;
+  border-color: #008000;
+  margin-left: auto;
+/*    margin-right: auto;*/
+  display: block;
+  padding-top: 20px;
+
 }
 
 .doc-meta {
-  margin-left: 110px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-result {
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin-top: 30px;
 }
 

@@ -32,7 +32,7 @@ class CsrApi(Api):
         # If querystring format, use that media type
         mediatypes = {
             'json': 'application/json',
-            'xml': 'application/xml',
+            'xml': 'application/xml'
         }
         mediatype = mediatypes.get(request.args.get('format'))
         if mediatype in self.representations:
@@ -52,7 +52,7 @@ api = CsrApi(
     api_bp,
     version='1.0',
     title='ChemSchematicResolver REST API',
-    description='A web service for programmatically uploading documents to be processed using ChemSchematicResolver on our servers.\n\n All endpoints are at constructed by appending to http://chemschematicresolver.org/api'
+    description='A web service for programmatically uploading documents to be processed using ChemSchematicResolver on our servers.\n\n All endpoints are at constructed by appending to http://chemschematicresolver.org/api',
 )
 
 
