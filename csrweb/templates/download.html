@@ -83,12 +83,22 @@
           <div class="downloads">
             <div class="row download">
               <div class="col-sm-3 download-meta">
-                <div class="text-muted download-date">27th August 2019</div>
+                <div class="text-muted download-date">7th November 2019</div>
               </div>
               <div class="col-sm-9 download-body">
-                <h3>ChemSchematicResolver evaluation corpus</h3>
-                <p>A CSV file containing the Digital Object Indentifier (DOI) and figure number for each file in the corpus used to evaluate the performance of ChemSchematicResolver.</p>
-                <a class="btn btn-primary" href="{{ url_for('static', filename='csv/evaluation_set.csv')}}">{{ utils.icon('circle-arrow-down') }} Download</a>
+                <h3>ChemSchematicResolver Evaluation Images</h3>
+                <p>A compressed file containing <b>65 images</b> used in the main evaluation of ChemSchematicResolver. All images were automatically downloaded from <i>open access</i> articles published by <a href="https://www.springer.com">Springer</a> and the <a href="https://www.rsc.org/">Royal Society of Chemistry</a>.</p>
+                <a class="btn btn-primary" href="{{ url_for('static', filename='zip/main_eval.zip')}}">{{ utils.icon('circle-arrow-down') }} Download</a>
+              </div>
+            </div>
+            <div class="row download">
+              <div class="col-sm-3 download-meta">
+                <div class="text-muted download-date">7th November 2019</div>
+              </div>
+              <div class="col-sm-9 download-body">
+                <h3>ChemSchematicResolver R-Group Evaluation Images</h3>
+                <p>A compressed file containing <b>29 images</b> used in the main evaluation of R-Group ChemSchematicResolver. R-Group images were manually selected from the evaluation set found in the <a href="https://pubs.acs.org/doi/suppl/10.1021/ci800449t/suppl_file/ci800449t_si_001.zip">supplementary information</a> of the <a href="https://doi.org/10.1021/ci800449t">CLiDE Pro release manuscript</a>.</p>
+                <a class="btn btn-primary" href="{{ url_for('static', filename='zip/rgroup_eval.zip')}}">{{ utils.icon('circle-arrow-down') }} Download</a>
               </div>
             </div>
           </div>

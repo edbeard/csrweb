@@ -5,7 +5,7 @@ csrweb.views
 
 Main website views.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard.
 :license: MIT, see LICENSE file for more details.
 """
 
@@ -17,9 +17,7 @@ from __future__ import unicode_literals
 import copy
 import logging
 import os
-import re
 import uuid
-import signal
 import gc
 
 from flask import render_template, request, url_for, redirect, abort, flash, send_from_directory, Response
@@ -41,6 +39,7 @@ log = logging.getLogger(__name__)
 
 basic_auth = BasicAuth(app)
 
+
 @app.route('/')
 @basic_auth.required
 def index():
@@ -50,6 +49,7 @@ def index():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/about_new')
 def about_new():

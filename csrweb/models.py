@@ -5,7 +5,7 @@ csrweb.models
 
 Data models.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard.
 :license: MIT, see LICENSE file for more details.
 """
 
@@ -16,7 +16,6 @@ from __future__ import unicode_literals
 import logging
 from datetime import datetime
 
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.declarative import declarative_base
 
 from . import db

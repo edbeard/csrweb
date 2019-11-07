@@ -3,9 +3,9 @@
 csrweb
 ~~~~~~
 
-Website for ChemDataExtractor.
+Website for ChemSchematicREsolver.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard.
 :license: MIT, see LICENSE file for more details.
 """
 
@@ -15,7 +15,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import logging
 import os
-import json
 
 from celery import Celery
 from flask import Flask, request

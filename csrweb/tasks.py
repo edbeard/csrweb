@@ -5,7 +5,7 @@ csrweb.tasks
 
 Celery tasks.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard.
 :license: MIT, see LICENSE file for more details.
 """
 
@@ -15,19 +15,10 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import logging
 import os
-import subprocess
-import tempfile
-import zipfile
 
 import cirpy
 
-
-from chemdataextractor import Document
 from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
-from chemdataextractor.text.normalize import chem_normalize
-from natsort import natsort
-import time
-
 from chemschematicresolver import extract_image
 
 from . import app, db, make_celery
@@ -38,58 +29,16 @@ log = logging.getLogger(__name__)
 
 celery = make_celery(app)
 
-#
-# def get_ide_output(inf, outf):
-#     pass
-    # extract_images(inf, outf)
-    #
-    # filename = inf.split('/')[-1].split('.')[0]
-    # filetype = inf.split('.')[-1]
-    #
-    # # Zip all files together in the output folder
-    # paths = [os.path.join(outf, filename, f) for f in os.listdir(os.path.join(outf, filename))]
-    # with zipfile.ZipFile(os.path.join(outf, filename, filename + '.zip'), 'w') as zipme:
-    #     for file in paths:
-    #         zipme.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
-    #
-    #
-    # output = {'path':
-    #               {'hist': os.path.join(outf, filename, 'hist_' + filename + '.' + filetype),
-    #                'rdf': os.path.join(outf, filename,'rdf_' + filename + '.' + filetype),
-    #                'scalebar': os.path.join(outf, filename,'scalebar_' + filename + '.' + filetype),
-    #                'det': os.path.join(outf, filename, 'det_' + filename + '.' + filetype),
-    #                'meta': os.path.join(outf, filename, filename + '.txt'),
-    #                'zip': os.path.join(outf, filename, filename + '.zip')
-    #                }
-    #           }
-    # with open(output['path']['meta'], 'r') as f:
-    #     output['meta'] = f.read()
-    #
-    # return output
-
 
 def get_result(fname):
-    """ Obtains the result from """
+    """ Obtains the results from the extracted image."""
 
     try:
         records = extract_image(fname, allow_wildcards=True)
-
     except Exception as e:
         log.warning('An exception occurred while running extract_image!')
         records = []
     return records
-
-
-def get_biblio(f, fname):
-    biblio = {'filename': fname}
-    try:
-        if fname.endswith('.html'):
-            biblio.update(DocumentEntity(Selector.from_html_text(f.read())).serialize())
-        elif fname.endswith('.xml') or fname.endswith('.nxml'):
-            biblio.update(NlmXmlDocument(Selector.from_xml_text(f.read(), namespaces={'xlink': 'http://www.w3.org/1999/xlink'})).serialize())
-    except Exception:
-        pass
-    return biblio
 
 
 def add_name(result):

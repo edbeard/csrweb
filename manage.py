@@ -5,7 +5,7 @@ manage.py
 
 csrweb management commands.
 
-:copyright: Copyright 2016 by Matt Swain.
+:copyright: Copyright 2019 by Ed Beard.
 :license: MIT, see LICENSE file for more details.
 """
 
