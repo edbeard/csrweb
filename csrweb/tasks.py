@@ -15,10 +15,10 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import logging
 import os
+import traceback
 
 import cirpy
 
-from chemdataextractor.scrape import DocumentEntity, NlmXmlDocument, Selector
 from chemschematicresolver import extract_image
 
 from . import app, db, make_celery
@@ -35,10 +35,19 @@ def get_result(fname):
 
     try:
         records = extract_image(fname, allow_wildcards=True)
+
+    except MemoryError as e:
+        log.error('Memory error:')
+        log.error(e)
+        memory_error = True
+        return [], memory_error
     except Exception as e:
-        log.warning('An exception occurred while running extract_image!')
+        log.warning('An exception occurred while running extract_image!...')
+        log.warning(e)
+        traceback.print_exc()
         records = []
-    return records
+    memory_error = False
+    return records, memory_error
 
 
 def add_name(result):
@@ -84,8 +93,13 @@ def run_csr(job_id):
     input_filepath = os.path.join(app.config['UPLOAD_FOLDER'], csr_job.file)
     log.debug('Path to input image is %s' % input_filepath)
     log.debug('Detected csr_job is: %s' % csr_job.result)
-    results = get_result(input_filepath)
-    if not results:
+    results, memory_error = get_result(input_filepath)
+
+    if memory_error:
+        csr_record = CsrRecord(smiles='MEM_ERR', name='MEM_ERR', csr_job=csr_job)
+        db.session.add(csr_record)
+
+    elif not results:
         log.debug('No results extracted.')
         csr_record = CsrRecord(smiles='NA', name='NA', csr_job=csr_job)
         db.session.add(csr_record)

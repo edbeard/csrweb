@@ -38,293 +38,6 @@
   </div>
 {% endmacro %}
 
-
-{% macro display_nmr(nmr) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'nucleus' in nmr %}
-            <tr>
-              <th class="col-xs-3">Nucleus</th>
-              <td class="col-xs-9">{{ nmr['nucleus'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'frequency' in nmr %}
-            <tr>
-              <th class="col-xs-3">Frequency</th>
-              <td>{{ nmr['frequency'] }} {% if 'frequency_units' in nmr %}{{ nmr['frequency_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'solvent' in nmr %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ nmr['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in nmr %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ nmr['temperature'] }} {% if 'temperature_units' in nmr %}{{ nmr['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in nmr %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ nmr['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'peaks' in nmr %}
-            <tr>
-              <th class="col-xs-3">Shifts</th>
-              <td class="col-xs-9">
-                {% for peak in nmr['peaks'] -%}
-                    {%- if not loop.first %},{% endif %}
-                    {{ peak['shift'] }}
-                    {%- if 'multiplicity' in peak or 'number' in peak or 'coupling' in peak or 'assignment' in peak %}
-                      (
-                      {% if 'multiplicity' in peak %}{{ peak['multiplicity'] }}{% endif %}
-                      {% if 'number' in peak %}{{ peak['number'] }}{% endif %}
-                      {% if 'coupling' in peak %}{{ peak['coupling'] }}{% if 'coupling_units' in peak %} {{ peak['coupling_units'] }}{% endif %}{% endif -%}
-                      {% if 'assignment' in peak %}{{ peak['assignment'] }}{% endif %}
-                      )
-                    {%- endif %}
-                {%- endfor %}
-              </td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-{% macro display_ir(ir) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'solvent' in ir %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ ir['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in ir %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ ir['temperature'] }} {% if 'temperature_units' in ir %}{{ ir['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in ir %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ ir['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'peaks' in ir %}
-            <tr>
-              <th class="col-xs-3">Peaks</th>
-              <td class="col-xs-9">
-                {% for peak in ir['peaks'] -%}
-                    {%- if not loop.first %},{% endif %}
-                    {{ peak['value'] }}{% if 'units' in peak %} {{ peak['units'] }}{% endif %}
-                    {%- if 'strength' in peak or 'bond' in peak %}
-                      (
-                      {% if 'strength' in peak %}{{ peak['strength'] }}{% endif %}
-                      {% if 'bond' in peak %}{{ peak['bond'] }}{% endif %}
-                      )
-                    {%- endif %}
-                {%- endfor %}
-              </td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-{% macro display_uvvis(uvvis) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'solvent' in uvvis %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ uvvis['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in uvvis %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ uvvis['temperature'] }} {% if 'temperature_units' in uvvis %}{{ uvvis['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in uvvis %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ uvvis['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'peaks' in uvvis %}
-            <tr>
-              <th class="col-xs-3">Peaks</th>
-              <td class="col-xs-9">
-                {% for peak in uvvis['peaks'] -%}
-                    {%- if not loop.first %},{% endif %}
-                    {{ peak['value'] }}{% if 'units' in peak %} {{ peak['units'] }}{% endif %}
-                    {%- if 'extinction' in peak or 'shape' in peak %}
-                      (
-                      {% if 'shape' in peak %}{{ peak['shape'] }}{% endif %}
-                      {% if 'extinction' in peak %}{{ peak['extinction'] }}{% if 'extinction_units' in peak %} {{ peak['extinction_units'] }}{% endif %}{% endif %}
-                      )
-                    {%- endif %}
-                {%- endfor %}
-              </td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-{% macro display_fl(fl) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'value' in fl %}
-            <tr>
-              <th class="col-xs-3">Value</th>
-              <td class="col-xs-9">{{ fl['value'] }}{% if 'units' in fl %} {{ fl['units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'solvent' in fl %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ fl['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in fl %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ fl['temperature'] }}{% if 'temperature_units' in fl %} {{ fl['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in fl %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ fl['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-{% macro display_mp(mp) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'value' in mp %}
-            <tr>
-              <th class="col-xs-3">Value</th>
-              <td class="col-xs-9">{{ mp['value'] }}{% if 'units' in mp %} {{ mp['units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'type' in mp %}
-            <tr>
-              <th class="col-xs-3">Type</th>
-              <td class="col-xs-9">{{ mp['type'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'solvent' in mp %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ mp['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in mp %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ mp['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-
-{% macro display_ep(ep) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'value' in ep %}
-            <tr>
-              <th class="col-xs-3">Value</th>
-              <td class="col-xs-9">{{ ep['value'] }}{% if 'units' in ep %} {{ ep['units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'type' in ep %}
-            <tr>
-              <th class="col-xs-3">Type</th>
-              <td class="col-xs-9">{{ ep['type'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'solvent' in ep %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ ep['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in ep %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ ep['temperature'] }}{% if 'temperature_units' in ep %} {{ ep['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in ep %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ ep['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-{% macro display_qy(qy) %}
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-bordered">
-          {% if 'value' in qy %}
-            <tr>
-              <th class="col-xs-3">Value</th>
-              <td class="col-xs-9">{{ qy['value'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'solvent' in qy %}
-            <tr>
-              <th class="col-xs-3">Solvent</th>
-              <td class="col-xs-9">{{ qy['solvent'] }}</td>
-            </tr>
-          {% endif %}
-          {% if 'temperature' in qy %}
-            <tr>
-              <th class="col-xs-3">Temperature</th>
-              <td class="col-xs-9">{{ qy['temperature'] }}{% if 'temperature_units' in qy %} {{ qy['temperature_units'] }}{% endif %}</td>
-            </tr>
-          {% endif %}
-          {% if 'apparatus' in qy %}
-            <tr>
-              <th class="col-xs-3">Apparatus</th>
-              <td class="col-xs-9">{{ qy['apparatus'] }}</td>
-            </tr>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-{% endmacro %}
-
-
 {% block content %}
   <div class="container page-container">
     <div class="row">
@@ -338,7 +51,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        {% if not task.failed() and job.result|length and not none_extracted %}
+        {% if not task.failed() and job.result|length and not none_extracted and not mem_error %}
           <div>
             <div class="download-container">
               <div class="download-all btn-group">
@@ -359,8 +72,34 @@
                       {{ display_compound(result, loop.index0) }}
                     {% endfor %}
                   </div>
-
               </div>
+        {% elif mem_error %}
+           <div>
+             <section class="section section-default">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-4 text-center">
+                      <img class="img-about-logo" src="{{ url_for('static', filename='img/no_structures_resolved.svg') }}">
+            {#          <img class="img-about" src="{{ url_for('static', filename='img/chem.svg') }}">#}
+                    </div>
+                    <div class="col-sm-8 align-middle">
+                      <div id="about-text-container">
+                        <div class="about-text">
+                          <p class="feature-display">
+                            <b>Your image is too large to be handled by our servers.</b>
+                          </p>
+                          <p>
+                            Please try uploading a smaller image, or <a href="/docs/install">install</a> the software and run locally.
+                          </p>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+            </div>
         {% elif none_extracted %}
            <div>
              <section class="section section-default">

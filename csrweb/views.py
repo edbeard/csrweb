@@ -215,6 +215,7 @@ def results(result_id):
     prop_keys = {'nmr_spectra', 'ir_spectra', 'uvvis_spectra', 'melting_points', 'electrochemical_potentials', 'quantum_yields', 'fluorescence_lifetimes'}
 
     has_result = False
+    mem_error = False
     none_extracted = False
 
     if job.result:
@@ -225,6 +226,8 @@ def results(result_id):
         # Detecting case where no results were extracted...
         if len(job.result) == 1 and job.result[0].smiles == 'NA':
             none_extracted = True
+        elif len(job.result) == 1 and job.result[0].smiles == 'MEM_ERR':
+            mem_error = True
 
         for result in job.result:
             for label in result.labels:
@@ -251,7 +254,8 @@ def results(result_id):
         task=task,
         job=job,
         has_result=has_result,
-        none_extracted=none_extracted
+        none_extracted=none_extracted,
+        mem_error=mem_error
     )
 
 
