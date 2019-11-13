@@ -27,11 +27,11 @@ Finally, download the **data files** for [ChemDataExtractor](http://chemdataextr
 
     cde data download
     
-*This method of installation is currently supported on linux machines only*
+*This method of installation is currently supported on ubuntu machines only*
 
-**NOTE: THIS WILL BE EXTENDED TO WINDOWS AND MAC OS X USING CONDA CONVERT.**
+*NOTE: THIS WILL BE EXTENDED TO WINDOWS AND MAC OS X AND OTHER LINUX FLAVOURS USING CONDA CONVERT.*
 
-**WILL NEED TO IMPLEMENT AND TEST THIS BEFORE SUBMISSION**
+*WILL NEED TO IMPLEMENT AND TEST THIS BEFORE SUBMISSION*
 
 ### Option 2 - Installation from source
 
