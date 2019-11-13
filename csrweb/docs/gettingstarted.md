@@ -1,10 +1,10 @@
 # Getting Started
 
 This page gives a introduction on how to get started with ChemSchematicResolver. This assumes you already have
-ChemSchematicResolver and all dependencies [installed](install).
+ChemSchematicResolver and all dependencies [**installed**](install).
 
 ## Extract Image
-It's simplest to run ChemSchematicResolver on an image file.
+It's simplest to run ChemSchematicResolver on an **image** file.
 
 Open a python terminal and import the library with: 
 
@@ -16,7 +16,7 @@ Then run:
     
 to perform the extraction. 
 
-This runs ChemSchematicResolver on the image and returns a list of tuples to `output`. Each tuple consists of a SMILES string and a list of label candidates, where each tuple identifies a unique structure. For example:
+This runs ChemSchematicResolver on the image and returns a list of tuples to `output`. Each tuple consists of a **SMILES string** and a list of **label candidates**, where each tuple identifies a unique structure. For example:
 
     >>> print(result)
     [(['1a'], 'C1CCCCC1'), (['1b'], 'CC1CCCCC1')]
@@ -31,12 +31,12 @@ If the user has permissions to access the full article, this function will downl
 
 The tool currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and [Springer](https://www.springer.com), as well as XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .
 
-ChemSchematicResolver will return the complete chemical records from the document extracted with [ChemDataExtractor](www.chemdataextractor.org), enriched with extracted structure and raw label. For example:
+ChemSchematicResolver will return the  **chemical records** extracted by [ChemDataExtractor](www.chemdataextractor.org), enriched with structure and raw label from the image. For example:
 
     >>> print(result)
     {'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1CCCCC1', 'label': '1a' } }
 
-Alternatively, if you just want the structures and labels extracted from the images without the ChemDataExtractor output, run:
+Alternatively, if you just want the structures and labels extracted from the images without the ChemDataExtractor output, include the `extract_all` flag:
 
     >>> result = csr.extract_document('<path/to/document/file>', extract_all=False)
     

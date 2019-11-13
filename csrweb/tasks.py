@@ -117,6 +117,5 @@ def run_csr(job_id):
                 csr_label = CsrLabel(value=label, csr_record=csr_record)
                 db.session.add(csr_label)
             log.debug('Name extracted: %s' % csr_record.name)
-    # print('The ouptut result is :' % ide_job.result)
     db.session.commit()
 
