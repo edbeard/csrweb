@@ -19,7 +19,7 @@ to perform the extraction.
 This runs ChemSchematicResolver on the image and returns a list of tuples to `output`. Each tuple consists of a **SMILES string** and a list of **label candidates**, where each tuple identifies a unique structure. For example:
 
     >>> print(result)
-    [(['1a'], 'C1CCCCC1'), (['1b'], 'CC1CCCCC1')]
+    [(['1a'], 'C1=CC=CC=C1'), (['1b'], 'C1=CC=CC(=C1)C')]
 
 ## Extract Document
 
@@ -31,10 +31,10 @@ If the user has permissions to access the full article, this function will downl
 
 The tool currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and [Springer](https://www.springer.com), as well as XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .
 
-ChemSchematicResolver will return the  **chemical records** extracted by [ChemDataExtractor](www.chemdataextractor.org), enriched with structure and raw label from the image. For example:
+ChemSchematicResolver will return the  **chemical records** extracted by [ChemDataExtractor](www.chemdataextractor.org), enriched with the structure and raw label from the image. For example:
 
     >>> print(result)
-    {'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1CCCCC1', 'label': '1a' } }
+    {'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1=CC=CC=C1', 'label': '1a' } }
 
 Alternatively, if you just want the structures and labels extracted from the images without the ChemDataExtractor output, include the `extract_all` flag:
 
@@ -43,4 +43,4 @@ Alternatively, if you just want the structures and labels extracted from the ima
 which, for the above example, will return:
 
     >>> print(output)
-    [(['1a'], 'C1CCCCC1')]
+    [(['1a'], 'C1=CC=CC=C1')]

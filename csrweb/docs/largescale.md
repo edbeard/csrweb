@@ -11,7 +11,7 @@ Extract all diagrams from a directory of images with `extract_images`:
 This runs the `extract_image` method on every file in the target directory, and returns a list of the results. For example:
 
     >>> print(result)
-    [[(['1a'], 'C1CCCCC1')], [(['1b'], 'CC1CCCCC1')]]    
+    [[(['1a'], 'C1=CC=CC=C1')], [(['1b'], 'C1=CC=CC(=C1)C')]]    
     
 ### Extract Documents
 
@@ -22,8 +22,8 @@ Similarly, the `extract_documents` method can be used to extract from a director
 This also returns a list, where each element describes CSR-enriched chemical records of each article. For example:
 
     >>> print(result)
-        [{'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1CCCCC1', 'label': '1a' } },
-         {'labels': ['1b'], 'roles': ['compound'], 'melting_points': [{'value': '-126', 'units': '°C'}], 'diagram': { 'smiles': 'CC1CCCCC1', 'label': '1b' } }]
+        [{'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1=CC=CC=C1', 'label': '1a' } },
+         {'labels': ['1b'], 'roles': ['compound'], 'melting_points': [{'value': '-126', 'units': '°C'}], 'diagram': { 'smiles': 'C1=CC=CC(=C1)C', 'label': '1b' } }]
     
 *The user may also use the `extract_all=False` argument with this method: see the [previous section](gettingstarted).*
 

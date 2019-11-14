@@ -20,7 +20,7 @@ and install ChemSchematicResolver by typing
 
     conda install -c edbeard chemschematicresolver
     
-This command installs ChemSchematicResolver and all it's dependencies from the author's channel.
+This command installs ChemSchematicResolver and all its dependencies from the author's channel.
 This includes [**pyosra**](https://github.com/edbeard/pyosra), the Python wrapper for the OSRA toolkit, and [**ChemDataExtractor-CSR**](https://github.com/edbeard/chemdataextractor-csr), the bespoke version of ChemDataExtractor containing diagram parsers.
 
 Finally, download the **data files** for [ChemDataExtractor](http://chemdataextractor.org). These files contain the machine learning models, dictionaries and word clusters that ChemDataExtractor uses. This is done with the following command:
