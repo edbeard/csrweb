@@ -29,7 +29,7 @@
             SMILES: <code class="smiles-display">{{ record.smiles }}</code>
           </div>
           <div class="btn-group link-container">
-            <a href="{{ url_for('mol', smiles=record['smiles']) }}" class="btn btn-link"><i class="glyphicon glyphicon-save"></i> Download MOL</a>
+              <a href="{{ url_for('mol', smiles=record['smiles']) }}" class="btn btn-link"><i class="glyphicon glyphicon-save"></i> Download MOL</a>
             <a href="http://www.chemspider.com/Search.aspx?q={{ record['smiles'] | urlencode }}" class="btn btn-link"><i class="glyphicon glyphicon-search"></i> Search ChemSpider</a>
           </div>
         {% endif %}
@@ -65,6 +65,7 @@
                 <p>The extracted structures are shown below:</p>
               </div>
             </div>
+                <div class="text-muted small text-right">Image-to-SMILES powered by <a href="https://github.com/edbeard/pyosra">pyosra</a>/<a href="http://osra.sourceforge.net">OSRA</a></div>
                 <div class="text-muted small text-right">Structure-to-name powered by <a href="http://cactus.nci.nih.gov/chemical/structure">NCI CIR</a></div>
                 <div class="text-muted small text-right">SMILES-to-diagram powered by <a href="http://rdkit.org/">rdkit</a></div>
                   <div class="smiles-container">

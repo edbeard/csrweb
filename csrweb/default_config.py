@@ -21,7 +21,7 @@ CELERY_RESULT_BACKEND = 'db+postgresql://csrweb:csrweb123@localhost:5432/csrweb'
 CELERYD_TASK_TIME_LIMIT = 1000
 
 UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
-ALLOWED_EXTENSIONS = {'png', 'gif', 'jpeg', 'tif', 'jpg', 'tiff', 'bmp'}
+ALLOWED_EXTENSIONS = {'png', 'gif', 'jpeg', 'tif', 'jpg', 'tiff', 'bmp', 'dib', 'ppm', 'sgi', 'tga' }
 
 RESTPLUS_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'full'

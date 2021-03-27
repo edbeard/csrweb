@@ -292,7 +292,10 @@ def depict(smiles):
 @app.route('/mol/<path:smiles>')
 def mol(smiles):
     """Return MOL for SMILES."""
+
     mol = Chem.MolFromSmiles(smiles)
+    if not mol:
+        return render_template('unresolved_mol.html', smiles=smiles)
     AllChem.Compute2DCoords(mol)
     mb = Chem.MolToMolBlock(mol)
     return Response(response=mb, status=200, mimetype='chemical/x-mdl-molfile', headers={'Content-Disposition': 'attachment;filename=structure.mol'})

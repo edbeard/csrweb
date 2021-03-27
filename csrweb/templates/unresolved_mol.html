@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Unsuccessful Conversion | ChemSchematicResolver{% endblock %}
+
+{% block content %}
+  <div class="container page-container">
+    <h1>Cannot Download MOL file...</h1>
+
+       <p class="feature-display">
+         Conversion to MOL using <a href="http://rdkit.org/">rdkit</a> unsucessful for SMILES:
+       </p>
+
+      <div class="smiles-container">
+        <code class="smiles-display">{{ smiles }}</code>
+      </div>
+
+    <p class="feature-display">
+      Click <a href="{{ url_for('demo') }}">here</a> to upload another image, or click <b>back</b> in your browser to return to the previous page.
+    </p>
+
+
+
+
+  </div>
+{% endblock %}
