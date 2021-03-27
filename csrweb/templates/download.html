@@ -8,45 +8,11 @@
     {{ utils.flashed_messages(messages) }}
     <div>
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" {% if not registered %}class="active"{% endif %}><a href="#tab-register" role="tab" data-toggle="tab">Register for Updates</a></li>
-        <li role="presentation" {% if registered %}class="active"{% endif %}><a href="#tab-download" role="tab" data-toggle="tab">Download ChemSchematicResolver</a></li>
+        <li role="presentation" class="active"><a href="#tab-download" role="tab" data-toggle="tab">Download ChemSchematicResolver</a></li>
         <li role="presentation"><a href="#tab-evaluation" role="tab" data-toggle="tab">Download Evaluation Files</a></li>
       </ul>
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane{% if not registered %} active{% endif %}" id="tab-register">
-          <h2>Register</h2>
-          <p>Registration is optional. If you register, we'll keep in touch with news and updates.</p>
-          <div class="row">
-            <div class="col-sm-6">
-              <form id="register-form" method="post">
-                {{ form.hidden_tag() }}
-                <div class="form-group{% if form.email.errors %} has-error{% endif -%}">
-                  {{ form.email.label(class='control-label') }}
-                  {{ form.email(class='form-control') }}
-                  {% for error in form.email.errors %}
-                    <p class="help-block">{{ error }}</p>
-                  {% endfor %}
-                </div>
-                <div class="form-group{% if form.name.errors %} has-error{% endif -%}">
-                  {{ form.name.label(class='control-label') }}
-                  {{ form.name(class='form-control') }}
-                  {% for error in form.name.errors %}
-                    <p class="help-block">{{ error }}</p>
-                  {% endfor %}
-                </div>
-                <div class="form-group{% if form.affiliation.errors %} has-error{% endif -%}">
-                  {{ form.affiliation.label(class='control-label') }}
-                  {{ form.affiliation(class='form-control') }}
-                  {% for error in form.affiliation.errors %}
-                    <p class="help-block">{{ error }}</p>
-                  {% endfor %}
-                </div>
-                {{ form.submit(class='btn btn-primary') }}
-              </form>
-            </div>
-          </div>
-        </div>
-        <div role="tabpanel" class="tab-pane{% if registered %} active{% endif %}" id="tab-download">
+        <div role="tabpanel" class="tab-pane active" id="tab-download">
           <h2>Releases</h2>
           <p>
             ChemSchematicResolver is available as an open source python package. <a href="/docs/install">Installation using
@@ -62,7 +28,7 @@
           <div class="downloads">
             <div class="row download">
               <div class="col-sm-3 download-meta">
-                <div class="text-muted download-date">DATE OF VERSION RELEASE</div>
+                <div class="text-muted download-date">4th April 2020</div>
               </div>
               <div class="col-sm-9 download-body">
                 <span class="label label-success pull-right">Latest release</span>
@@ -78,7 +44,8 @@
           <h2 id="evaluation">Evaluation files</h2>
           <p>ChemSchematicResolver performance was evaluated as part of the following publication:</p>
           <div class="well">
-            LINK TO PUBLICATION HERE.
+                <p>E. J. Beard, J. M. Cole, ChemSchematicResolver: A Toolkit to Decode 2-D Chemical Diagrams with Labels and R-groups into Annotated Chemical Named Entities, <i>J. Chem. Inf. Model.</i> (<b>2020</b>)
+                <a href="http://dx.doi.org/10.1021/acs.jcim.0c00042">http://dx.doi.org/10.1021/acs.jcim.0c00042</a></p>
           </div>
           <div class="downloads">
             <div class="row download">
@@ -111,3 +78,4 @@
   </div>
   </div>
 {% endblock %}
+
