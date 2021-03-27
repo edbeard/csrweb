@@ -54,10 +54,10 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('csrweb.default_config')
 
 # Importing specific config settings
-#app.config.from_json('/etc/config.json')
+app.config.from_json('/etc/config.json')
 
-print("The apps database URI is %s" % app.config['SQLALCHEMY_DATABASE_URI'])
-print("The apps broker URI is %s" % app.config['CELERY_BROKER_URL'])
+#print("The apps database URI is %s" % app.config['SQLALCHEMY_DATABASE_URI'])
+#print("The apps broker URI is %s" % app.config['CELERY_BROKER_URL'])
 
 # Load deployment-specific configuration from file in the instance folder
 #app.config.from_pyfile('config.py', silent=True)

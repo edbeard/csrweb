@@ -31,7 +31,7 @@ If the user has permissions to access the full article, this function will downl
 
 The tool currently supports HTML documents from the [Royal Society of Chemistry](https://www.rsc.org/) and [Springer](https://www.springer.com), as well as XML files obtained using the [Elsevier Developers Portal](https://dev.elsevier.com/index.html) .
 
-ChemSchematicResolver will return the  **chemical records** extracted by [ChemDataExtractor](www.chemdataextractor.org), enriched with the structure and raw label from the image. For example:
+ChemSchematicResolver will return the  **chemical records** extracted by [ChemDataExtractor](http://chemdataextractor.org/), enriched with the structure and raw label from the image. For example:
 
     >>> print(result)
     {'labels': ['1a'], 'roles': ['compound'], 'melting_points': [{'value': '5', 'units': '°C'}], 'diagram': { 'smiles': 'C1=CC=CC=C1', 'label': '1a' } }

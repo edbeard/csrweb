@@ -37,11 +37,8 @@ from .tasks import celery
 
 log = logging.getLogger(__name__)
 
-basic_auth = BasicAuth(app)
-
 
 @app.route('/')
-@basic_auth.required
 def index():
     return render_template('index.html')
 

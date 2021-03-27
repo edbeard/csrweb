@@ -16,7 +16,7 @@ Once this is created, enter this environment with the command
 
 The recommended installation procedure uses the [anaconda cloud](https://anaconda.org/). Simply enter:
 
-    conda install -c edbeard chemschematicresolver
+    conda install -c edbeard -c mcs07 -c conda-forge chemschematicresolver
     
 This command installs ChemSchematicResolver and all its dependencies from the author's channel.
 This includes [**pyosra**](https://github.com/edbeard/pyosra), the Python wrapper for the OSRA toolkit, and [**ChemDataExtractor-CSR**](https://github.com/edbeard/chemdataextractor-csr), the bespoke version of ChemDataExtractor containing diagram parsers.
@@ -38,11 +38,11 @@ If this cannot be done, users are invited to compile the code from source. The e
 
 The following packages will need to be built from a recipe, in the order below:
 
-1. **Pyosra**: [[recipe](https://github.com/edbeard/conda-recipes/recipe/pyosra), [source code](https://github.com/edbeard/pyosra)]
+1. **Pyosra**: [[recipe](https://github.com/edbeard/conda_recipes/tree/master/pyosra), [source code](https://github.com/edbeard/pyosra)]
 
-2. **ChemDataExtracor-CSR**: [[recipe](https://github.com/edbeard/conda-recipes/recipe/ChemDataExtrator-CSR), [source code](https://github.com/edbeard/chemdataextractor-csr)]
+2. **ChemDataExtractor-CSR**: [[recipe](https://github.com/edbeard/conda_recipes/tree/master/cde-csr/recipes/chemdataextractor), [source code](https://github.com/edbeard/chemdataextractor-csr)]
 
-3. **ChemSchematicResolver**: [[recipe](https://github.com/edbeard/conda-recipes/recipe/ChemSchematicResolver), [source code](https://github.com/edbeard/ChemSchematicResolver)]
+3. **ChemSchematicResolver**: [[recipe](https://github.com/edbeard/conda_recipes/tree/master/csr), [source code](https://github.com/edbeard/ChemSchematicResolver)]
  
 For each, enter the directory and run:
 
