@@ -19,4 +19,6 @@ This guide provides a quick tour through ChemSchematicResolver concepts and func
 
 If you use ChemSchematicResolver as a resource in your research, please cite the following work:
 
-> *Add citation here after publication.*
+> E. J. Beard, J. M. Cole, ChemSchematicResolver: A Toolkit to Decode 2-D Chemical Diagrams with Labels and R-groups into Annotated Chemical Named Entities, _J. Chem. Inf. Model._ (__2020__) <a href="http://dx.doi.org/10.1021/acs.jcim.0c00042">http://dx.doi.org/10.1021/acs.jcim.0c00042</a>
+
+This project was financially supported by the Science and Technology Facilities Council (STFC) and the Royal Academy of Engineering (RCSRF1819\7\10).
